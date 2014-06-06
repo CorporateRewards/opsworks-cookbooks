@@ -6,3 +6,6 @@ end
 
 opsworks_cookbook 'apt'
 opsworks_cookbook 'build-essential'
+opsworks_cookbook 'database'
+opsworks_cookbook 'php-fpm'
+opsworks_cookbook 'postfix'
