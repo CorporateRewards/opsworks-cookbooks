@@ -9,5 +9,5 @@ end
 # = Set the local timezone to 'Europe/London' =
 # =============================================
 execute 'configure timezone' do
-  code "dpkg-reconfigure --frontend noninteractive tzdata"
+  command "dpkg-reconfigure --frontend noninteractive tzdata"
 end
