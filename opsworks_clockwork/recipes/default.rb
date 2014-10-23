@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 opsworks_clockwork "oliver-clockwork" do
-  working_directory "/srv/www/oliver/current"
+  working_directory "/srv/www/myrewards/current"
   rails_env "production"
   user "deploy"
   group "www-data"
