@@ -5,10 +5,9 @@ describe_recipe 'opsworks_initial_setup::bind_mounts' do
   include MiniTest::Chef::Assertions
 
   it 'creates directories for bind mount' do
-    skip unless node[:platform] == 'amazon'
     node[:opsworks_initial_setup][:bind_mounts][:mounts].each do |dir, source|
-      directory(dir).must_exist.with(:mode, '755')
-      directory(source).must_exist.with(:mode, '755')
+      directory(dir).must_exist
+      directory(source).must_exist
     end
   end
 
@@ -33,9 +32,10 @@ describe_recipe 'opsworks_initial_setup::bind_mounts' do
       httpd_logs_path = '/var/log/apache2'
     end
 
-    mount('/var/log/mysql', :device => "#{ephemeral_mount_point}/var/log/mysql").must_be_mounted
-    mount('/srv/www', :device => "#{ephemeral_mount_point}/srv/www").must_be_mounted
-    mount('/var/www', :device => "#{ephemeral_mount_point}/var/www").must_be_mounted
-    mount(httpd_logs_path, :device => "#{ephemeral_mount_point}/var/log/apache2").must_be_mounted
+    ephemeral_device = OpsWorks::ShellOut.shellout("df #{ephemeral_mount_point} | grep ^/").split.first
+
+    ['/var/log/mysql', '/srv/www', '/var/www', httpd_logs_path].each do |bind_mount_dir|
+      OpsWorks::ShellOut.shellout("findmnt -c #{bind_mount_dir}").must_match %r{^#{bind_mount_dir}\s#{ephemeral_device}}
+    end
   end
 end

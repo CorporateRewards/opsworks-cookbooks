@@ -4,15 +4,6 @@ describe_recipe 'opsworks_nodejs::default' do
   include MiniTest::Chef::Resources
   include MiniTest::Chef::Assertions
 
-  it 'deletes downloaded packages' do
-    case node[:platform]
-    when'debian','ubuntu'
-      file(File.join('/tmp', node[:opsworks_nodejs][:deb])).wont_exist
-    when 'centos','redhat','fedora','amazon'
-      file(File.join('/tmp', node[:opsworks_nodejs][:rpm])).wont_exist
-    end
-  end
-
   it 'access the right node executable from the default path' do
      (`which node`).chomp.must_equal("/usr/local/bin/node")
   end
@@ -31,6 +22,23 @@ describe_recipe 'opsworks_nodejs::default' do
 
   it 'installs npm' do
     file("/usr/local/bin/npm").must_exist
+  end
+
+  it 'creates app.env for each application' do
+    node[:deploy].each do |application, deploy|
+      file("#{deploy[:deploy_to]}/shared/app.env").must_exist if node[:opsworks][:instance][:layers].include?("#{deploy[:application_type]}-app")
+    end
+  end
+
+  it 'contains correctly escaped environment variables in app.env files' do
+    node[:deploy].each do |application, deploy|
+      deploy[:environment_variables].each do |key, value|
+        if node[:opsworks][:instance][:layers].include?("#{deploy[:application_type]}-app")
+          file("#{deploy[:deploy_to]}/shared/app.env").must_include(key)
+          file("#{deploy[:deploy_to]}/shared/app.env").must_include(value.gsub("\"","\\\"")) unless value.blank?
+        end
+      end
+    end
   end
 
 end

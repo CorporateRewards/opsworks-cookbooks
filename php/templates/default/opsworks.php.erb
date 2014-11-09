@@ -3,6 +3,8 @@ class OpsWorksDb {
   public $adapter, $database, $encoding, $host, $username, $password, $reconnect;
 
   public function __construct() {
+    $this->type = '<%= @database[:type] %>';
+    $this->data_source_provider = '<%= @database[:data_source_provider] %>';
     $this->adapter = '<%= @database[:adapter] %>';
     $this->database = '<%= @database[:database] %>';
     $this->encoding = 'utf8';
@@ -23,8 +25,7 @@ class OpsWorksMemcached {
 }
 
 class OpsWorks {
-  public $db;
-  public $memcached;
+  public $db, $memcached, $stack_name;
   private $stack_map;
 
   public function __construct() {
@@ -42,4 +43,3 @@ class OpsWorks {
     return $this->stack_map[$layer];
   }
 }
-?>

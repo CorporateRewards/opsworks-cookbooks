@@ -72,10 +72,13 @@ define :opsworks_deploy do
       migrate deploy[:migrate]
       migration_command deploy[:migrate_command]
       environment deploy[:environment].to_hash
-      symlink_before_migrate( deploy[:symlink_before_migrate] )
+      purge_before_symlink(deploy[:purge_before_symlink]) unless deploy[:purge_before_symlink].nil?
+      create_dirs_before_symlink(deploy[:create_dirs_before_symlink])
+      symlink_before_migrate(deploy[:symlink_before_migrate])
+      symlinks(deploy[:symlinks]) unless deploy[:symlinks].nil?
       action deploy[:action]
 
-      if deploy[:application_type] == 'rails'
+      if deploy[:application_type] == 'rails' && node[:opsworks][:instance][:layers].include?('rails-app')
         restart_command "sleep #{deploy[:sleep_before_restart]} && #{node[:opsworks][:rails_stack][:restart_command]}"
       end
 
@@ -124,6 +127,8 @@ define :opsworks_deploy do
               deploy[:database][:host].present?
             end
           end.run_action(:create)
+        elsif deploy[:application_type] == 'aws-flow-ruby'
+          OpsWorks::RailsConfiguration.bundle(application, node[:deploy][application], release_path)
         elsif deploy[:application_type] == 'php'
           template "#{node[:deploy][application][:deploy_to]}/shared/config/opsworks.php" do
             cookbook 'php'
@@ -143,7 +148,7 @@ define :opsworks_deploy do
           end
         elsif deploy[:application_type] == 'nodejs'
           if deploy[:auto_npm_install_on_deploy]
-            OpsWorks::NodejsConfiguration.npm_install(application, node[:deploy][application], release_path)
+            OpsWorks::NodejsConfiguration.npm_install(application, node[:deploy][application], release_path, node[:opsworks_nodejs][:npm_install_options])
           end
         end
 
