@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-opsworks_clockwork "clockwork" do
-  working_directory deploy[:current_path]
-  rails_env node[:rails_env]
+opsworks_clockwork "oliver-clockwork" do
+  working_directory "/srv/www/myrewards/current"
+  rails_env "production"
   user "deploy"
   group "www-data"
 end
