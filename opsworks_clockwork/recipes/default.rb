@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-node[:deploy].each do |application|
+node[:deploy].each do |application, deploy|
    opsworks_clockwork "clockwork" do
      working_directory "/srv/www/#{application}/current"
      rails_env node[:rails_env]
