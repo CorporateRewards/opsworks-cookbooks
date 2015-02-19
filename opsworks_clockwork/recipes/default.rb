@@ -14,9 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-opsworks_clockwork "clockwork" do
-  working_directory deploy[:current_path]
-  rails_env node[:rails_env]
-  user "deploy"
-  group "www-data"
+node[:deploy].each do |application, deploy|
+   opsworks_clockwork "clockwork" do
+     working_directory deploy[:release_path]
+     rails_env node[:rails_env]
+     user "deploy"
+     group "www-data"
+   end
 end
+
