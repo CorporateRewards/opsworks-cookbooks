@@ -25,6 +25,11 @@ server {
     deny all;
   }
   
+  location ~* \.(eot|otf|ttf|woff)$ {
+    add_header Access-Control-Allow-Origin *;
+  }
+
+  
 }
 
 <% if @application[:ssl_support] %>
@@ -54,5 +59,10 @@ server {
   if ($request_uri ~* ^.*\.git.*$) {
      return 404;
   }
+  
+  location ~* \.(eot|otf|ttf|woff)$ {
+    add_header Access-Control-Allow-Origin *;
+  }
+
 }
 <% end %>
