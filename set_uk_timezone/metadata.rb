@@ -1,0 +1,5 @@
+name        "set_uk_timezone"
+description "Configures UK timezone"
+maintainer  "Volcanic"
+license     "Apache 2.0"
+version     "0.0.1"

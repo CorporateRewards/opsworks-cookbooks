@@ -95,18 +95,23 @@ node[:deploy].each do |application, deploy|
   default[:deploy][application][:enable_submodules] = true
   default[:deploy][application][:shallow_clone] = false
   default[:deploy][application][:delete_cached_copy] = true
+  default[:deploy][application][:purge_before_symlink] = ['log', 'tmp/pids', 'public/system']
+  default[:deploy][application][:create_dirs_before_symlink] = ['tmp', 'public', 'config']
   default[:deploy][application][:symlink_before_migrate] = {}
+  default[:deploy][application][:symlinks] = {"system" => "public/system", "pids" => "tmp/pids", "log" => "log"}
 
   default[:deploy][application][:environment] = {"RAILS_ENV" => deploy[:rails_env],
                                                  "RUBYOPT" => "",
                                                  "RACK_ENV" => deploy[:rails_env],
                                                  "HOME" => node[:deploy][application][:home]}
+  default[:deploy][application][:environment_variables] = {}
   default[:deploy][application][:ssl_support] = false
   default[:deploy][application][:auto_npm_install_on_deploy] = true
 
   # nodejs
   default[:deploy][application][:nodejs][:restart_command] = "monit restart node_web_app_#{application}"
   default[:deploy][application][:nodejs][:stop_command] = "monit stop node_web_app_#{application}"
+  default[:deploy][application][:nodejs][:port] = deploy[:ssl_support] ? 443 : 80
 end
 
 default[:opsworks][:skip_uninstall_of_other_rails_stack] = false

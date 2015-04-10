@@ -18,11 +18,19 @@ describe_recipe 'opsworks_ganglia::server' do
   end
 
   it 'has stack name in gmetad.conf' do
-    file('/etc/ganglia/gmetad.conf').must_include node[:opsworks][:stack][:name]
+    file('/etc/ganglia/gmetad.conf').must_include node[:opsworks][:stack][:name].gsub(/\W/,'-')
   end
 
   it 'starts and enables gmetad' do
-    service('gmetad').must_be_running
-    service('gmetad').must_be_enabled
+    if node[:platform] == 'ubuntu' && node[:platform_version] == '14.04'
+      service_resource = Chef::Resource::Service.new('gmetad', @run_context)
+      service_resource.provider Chef::Provider::Service::Upstart
+      service = service_resource.provider_for_action(:start).load_current_resource
+      service.running.must_equal true
+      service.enabled.must_equal true
+    else
+      service('gmetad').must_be_running
+      service('gmetad').must_be_enabled
+    end
   end
 end
