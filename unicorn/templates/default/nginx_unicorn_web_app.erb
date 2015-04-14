@@ -22,12 +22,12 @@ server {
     client_max_body_size <%= @application[:nginx][:client_max_body_size] %>;
   <% end %>
 
-  location / {
-    try_files $uri/index.html $uri/index.htm @unicorn;
-  }
-  
   location ~* \.(eot|otf|ttf|woff)$ {
     add_header Access-Control-Allow-Origin *;
+  }
+  
+  location / {
+    try_files $uri/index.html $uri/index.htm @unicorn;
   }
 
   location @unicorn {
