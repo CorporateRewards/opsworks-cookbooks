@@ -22,7 +22,7 @@ server {
     client_max_body_size <%= @application[:nginx][:client_max_body_size] %>;
   <% end %>
 
-  location ~* \.(eot|otf|ttf|woff)$ {
+  location ~* \.(eot|otf|ttf|woff|svg)$ {
     add_header Access-Control-Allow-Origin *;
   }
   
