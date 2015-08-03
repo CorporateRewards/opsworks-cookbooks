@@ -7,7 +7,7 @@ server {
   server_name <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
 
   <% if node[:nginx][:secure_redirect] %>
-  return  301 <%= node[:nginx][:secure_redirect]%>/$request_uri
+  return 301 <%= node[:nginx][:secure_redirect]%>$request_uri;
   <% end %>
 
   <% if @application[:log_format] %>
