@@ -3,6 +3,10 @@ server {
   server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.log;
 
+  <% if node[:nginx][:secure_redirect] %>
+  return  301 <%= node[:nginx][:secure_redirect]%>/$request_uri
+  <% end %>
+
   location / {
     root   <%= @application[:absolute_document_root] %>;
     index  index.html index.htm index.php;
