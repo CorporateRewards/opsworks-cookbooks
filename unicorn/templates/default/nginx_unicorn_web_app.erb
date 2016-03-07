@@ -110,7 +110,7 @@ server {
     try_files $uri/index.html $uri/index.htm @unicorn;
   }
   
-  <% node[:nginx][:limit_req].each do do |name, location| %>
+  <% node[:nginx][:limit_req].each do |name, location| %>
   location <%= location %> {
     #apply rate limiting
 	limit_req zone=<%= name %>;
