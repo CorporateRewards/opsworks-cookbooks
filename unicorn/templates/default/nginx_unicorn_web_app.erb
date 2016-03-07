@@ -44,7 +44,7 @@ server {
   
   <% node[:nginx][:proxy_pass].each do |proxy| %>
   location <%= proxy.location %> {
-    proxy_pass <%= proxy.proxy %>
+    proxy_pass <%= proxy.proxy %>;
   }
   <% end %>
 
