@@ -118,7 +118,7 @@ server {
   }
   <% end %>
   
-  <% node[:nginx][proxy_pass].each do |proxy, location| %>
+  <% node[:nginx][:proxy_pass].each do |proxy, location| %>
   location <%= location %> {
     proxy_pass <%= proxy %>
   }
