@@ -12,8 +12,8 @@ http {
   include       <%= node[:nginx][:dir] %>/mime.types;
   default_type  application/octet-stream;
   
-  <% node[:nginx][:limit_req].each do |name, size, rate| %>
-  limit_req_zone $binary_remote_addr zone=<%= name %>:<%= size %> rate=<%= rate %>; 
+  <% node[:nginx][:limit_req].each do |limit| %>
+  limit_req_zone $binary_remote_addr zone=<%= limit.name %>:<%= size %> rate=<%= limit.rate %>; 
   <% end %>
   <% if node[:nginx][:limit_req_status] %>
   limit_req_status <%= node[:nginx][:limit_req_status] %>;

@@ -34,17 +34,17 @@ server {
     try_files $uri/index.html $uri/index.htm @unicorn;
   }
   
-  <% node[:nginx][:limit_req].each do |name, location, options| %>
-  location <%= location %> {
+  <% node[:nginx][:limit_req].each do |limit| %>
+  location <%= limit.location %> {
     #apply rate limiting
-    limit_req zone=<%= name %> <%= options %>;
+    limit_req zone=<%= limit.name %> <%= limit.options %>;
     try_files $uri/index.html $uri/index.htm @unicorn;
   }
   <% end %>
   
-  <% node[:nginx][:proxy_pass].each do |proxy, location| %>
-  location <%= location %> {
-    proxy_pass <%= proxy %>
+  <% node[:nginx][:proxy_pass].each do |proxy| %>
+  location <%= proxy.location %> {
+    proxy_pass <%= proxy.proxy %>
   }
   <% end %>
 
@@ -110,17 +110,17 @@ server {
     try_files $uri/index.html $uri/index.htm @unicorn;
   }
   
-  <% node[:nginx][:limit_req].each do |name, location, options| %>
-  location <%= location %> {
+  <% node[:nginx][:limit_req].each do |limit| %>
+  location <%= limit.location %> {
     #apply rate limiting
-	limit_req zone=<%= name %> <%= options %>;
+    limit_req zone=<%= limit.name %> <%= limit.options %>;
     try_files $uri/index.html $uri/index.htm @unicorn;
   }
   <% end %>
   
-  <% node[:nginx][:proxy_pass].each do |proxy, location| %>
-  location <%= location %> {
-    proxy_pass <%= proxy %>
+  <% node[:nginx][:proxy_pass].each do |proxy| %>
+  location <%= proxy.location %> {
+    proxy_pass <%= proxy.proxy %>
   }
   <% end %>
   
