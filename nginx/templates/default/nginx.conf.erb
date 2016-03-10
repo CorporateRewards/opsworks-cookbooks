@@ -12,11 +12,13 @@ http {
   include       <%= node[:nginx][:dir] %>/mime.types;
   default_type  application/octet-stream;
   
-  <% node[:nginx][:limit_req].each do |limit| %>
+  <% if node[:nginx][:limit_req] %>
+    <% node[:nginx][:limit_req].each do |limit| %>
   limit_req_zone $binary_remote_addr zone=<%= limit.name %>:<%= limit.buffer %> rate=<%= limit.rate %>; 
   <% end %>
   <% if node[:nginx][:limit_req_status] %>
   limit_req_status <%= node[:nginx][:limit_req_status] %>;
+    <% end %>
   <% end %>
 
   <% node[:nginx][:log_format].each do |name, format| %>
