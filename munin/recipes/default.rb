@@ -21,7 +21,7 @@ template "/etc/munin/munin-node.conf" do
 end
 
 # add any extra plugins - if they and their congig exist
-node["munin"]["plugins"].each |plugin| do
+node["munin"]["plugins"].each do |plugin|
   cookbook_file "/usr/local/munin/plugins/#{plugin}" do
     only_if { run_context.has_cookbook_file_in_cookbook?(cookbook_name, "plugin/#{plugin}") }
     mode 0644
