@@ -33,19 +33,22 @@ server {
   location / {
     try_files $uri/index.html $uri/index.htm @unicorn;
   }
-  
-  <% node[:nginx][:limit_req].each do |limit| %>
+  <% if node[:nginx][:limit_req] %>
+    <% node[:nginx][:limit_req].each do |limit| %>
   location <%= limit.location %> {
     #apply rate limiting
     limit_req zone=<%= limit.name %> <%= limit.options %>;
     try_files $uri/index.html $uri/index.htm @unicorn;
-  }
+  } 
+    <% end %>
   <% end %>
   
-  <% node[:nginx][:proxy_pass].each do |proxy| %>
+  <% node[:nginx][:proxy_pass] %>
+    <% node[:nginx][:proxy_pass].each do |proxy| %>
   location <%= proxy.location %> {
     proxy_pass <%= proxy.proxy %>;
   }
+    <% end %>
   <% end %>
 
   location @unicorn {
