@@ -99,8 +99,8 @@ includedir /etc/munin/munin-conf.d
 #    address 127.0.0.1
 #    use_node_name yes
 
-<% node["munin-master"]["nodes"].each do |munin-node| %>
-<%= "[#{munin-node.name}]" %>
-	<%= "address #{munin-node.address}" %>
-	<%= "use_node_name #{munin-node.use_node_name}" %>
+<% node["munin-master"]["nodes"].each do |munin_node| %>
+<%= "[#{munin_node.name}]" %>
+	<%= "address #{munin_node.address}" %>
+	<%= "use_node_name #{munin_node.use_node_name}" %>
 <% end %>
