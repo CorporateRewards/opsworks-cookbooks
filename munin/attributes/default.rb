@@ -1,5 +1,5 @@
-default["munin"]["host_name"] = "SET MUNIN HOST NAME"
-default["munin"]["port"] = "4949"
-default["munin"]["plugins"] = []
-default["munin"]["allow"] = ["^127."]
-default["munin"]["cidr_allow"] = []
+default["munin-node"]["host_name"] = "SET MUNIN HOST NAME"
+default["munin-node"]["port"] = "4949"
+default["munin-node"]["plugins"] = []
+default["munin-node"]["allow"] = ["^127."]
+default["munin-node"]["cidr_allow"] = []
