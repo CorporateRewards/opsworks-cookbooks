@@ -1,12 +1,12 @@
 host *
-port <%= node["munin"]["port"] %>
-host_name = '<%= node["munin"]["host_name"] %>'
+port <%= node["munin-node"]["port"] %>
+host_name = '<%= node["munin-node"]["host_name"] %>'
 
-<% node["munin"]["cidr_allow"].each do |cidr| %>
+<% node["munin-node"]["cidr_allow"].each do |cidr| %>
 cidr_allow <%= cidr %>
 <% end %>
 
-<% node["munin"]["allow"].each do |allow| %>
+<% node["munin-node"]["allow"].each do |allow| %>
 allow '<%= allow %>'
 <% end %>
 
