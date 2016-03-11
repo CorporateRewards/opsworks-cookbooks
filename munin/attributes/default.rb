@@ -4,3 +4,6 @@ default["munin-node"]["plugins"] = []
 default["munin-node"]["allow"] = ["^127."]
 default["munin-node"]["cidr_allow"] = []
 default["munin-master"]["nodes"] = [{name:"localhost",address:"127.0.0.1",use_node_name:"yes"}]
+default["munin-master"]["hostname"] = "munin"
+default["munin-master"]["html_dir"] = "/var/cache/munin/www"
+default["munin-master"]["port"] = "80"

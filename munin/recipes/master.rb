@@ -23,11 +23,12 @@ template "/etc/munin/munin.conf" do
 end
 
 # add a site for nginx to serve
-cookbook_file "#{node[:nginx][:dir]}/sites-available/default" do
+template "#{node[:nginx][:dir]}/sites-available/default" do
   mode '0644'
   owner 'root'
   group 'root'
-  source 'munin-nginx.conf'
+  source 'munin-nginx.conf.erb'
+  variables(:hostname => node["munin-master"]["hostname"], :html_dir => node["munin-master"]["html_dir"], :port => node["munin-master"]["port"])
 end
 
 #start this site in nginx

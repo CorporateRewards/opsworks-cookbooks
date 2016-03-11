@@ -6,7 +6,7 @@
 # defaulted to the values you see here.
 #
 #dbdir  /var/lib/munin
-#htmldir /var/cache/munin/www
+htmldir <%= node["munin-master"]["html_dir"] %>
 #logdir /var/log/munin
 #rundir  /var/run/munin
 
