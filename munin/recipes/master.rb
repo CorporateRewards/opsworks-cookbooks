@@ -23,7 +23,7 @@ template "/etc/munin/munin.conf" do
 end
 
 # add a site for nginx to serve
-template "#{node[:nginx][:dir]}/sites-available/default" do
+template "#{node[:nginx][:dir]}/sites-available/munin" do
   mode '0644'
   owner 'root'
   group 'root'
@@ -32,10 +32,10 @@ template "#{node[:nginx][:dir]}/sites-available/default" do
 end
 
 #start this site in nginx
-execute "nxensite default" do
+execute "nxensite munin" do
   command "/usr/sbin/nxensite default"
   notifies :reload, "service[nginx]"
-  not_if do File.symlink?("#{node[:nginx][:dir]}/sites-enabled/default") end
+  not_if do File.symlink?("#{node[:nginx][:dir]}/sites-enabled/munin") end
 end
 
 
