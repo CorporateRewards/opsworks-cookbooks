@@ -43,7 +43,7 @@ server {
     <% end %>
   <% end %>
   
-  <% node[:nginx][:proxy_pass] %>
+  <% if node[:nginx][:proxy_pass] %>
     <% node[:nginx][:proxy_pass].each do |proxy| %>
   location <%= proxy.location %> {
     proxy_pass <%= proxy.proxy %>;
@@ -123,7 +123,7 @@ server {
     <% end %>
   <% end %>
   
-  <% node[:nginx][:proxy_pass] %>
+  <% if node[:nginx][:proxy_pass] %>
     <% node[:nginx][:proxy_pass].each do |proxy| %>
   location <%= proxy.location %> {
     proxy_pass <%= proxy.proxy %>;
