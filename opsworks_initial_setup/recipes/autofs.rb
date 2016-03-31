@@ -1,7 +1,7 @@
 package "autofs"
 
 service "autofs" do
-  supports :status => true, :restart => true, :reload => true
+  supports :status => true, :restart => false, :reload => true
   action [ :enable, :start ]
 end
 
@@ -12,12 +12,24 @@ template node[:opsworks_initial_setup][:autofs_map_file] do
   group "root"
 end
 
+ruby_block "Update autofs loglevel" do
+  block do
+    handle_to_master = Chef::Util::FileEdit.new(AutoFs.config(node))
+    handle_to_master.insert_line_if_no_match(
+      /^LOGGING=/,
+      "LOGGING=verbose"
+    )
+    handle_to_master.write_file
+  end
+  not_if { ::File.read(AutoFs.config(node)) =~ /^LOGGING=/ }
+end
+
 ruby_block "Update autofs configuration" do
   block do
     handle_to_master = Chef::Util::FileEdit.new("/etc/auto.master")
     handle_to_master.insert_line_if_no_match(
       node[:opsworks_initial_setup][:autofs_map_file],
-      "/- #{node[:opsworks_initial_setup][:autofs_map_file]} -t 3600"
+      "/- #{node[:opsworks_initial_setup][:autofs_map_file]} -t 3600 -n 1"
     )
     handle_to_master.write_file
   end

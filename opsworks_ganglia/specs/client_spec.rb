@@ -5,15 +5,16 @@ describe_recipe 'opsworks_ganglia::client' do
   include MiniTest::Chef::Assertions
 
   it 'installs ganglia monitor deamon' do
-    case node[:platform_family]
+    package_name = case node[:platform_family]
     when 'debian'
-      package('ganglia-monitor').must_be_installed
+      'ganglia-monitor'
     when "rhel"
-      package('ganglia-gmond').must_be_installed
+      'ganglia-gmond'
     end
+    package(package_name).must_be_installed
   end
 
-   it 'creates /etc/ganglia/scripts directory' do
+  it 'creates /etc/ganglia/scripts directory' do
     directory('/etc/ganglia/scripts').must_exist.with(:owner, 'root').and(:group, 'root').and(:mode, '755')
   end
 
@@ -22,14 +23,13 @@ describe_recipe 'opsworks_ganglia::client' do
   end
 
   it 'creates /etc/ganglia/python_modules' do
-    link('/etc/ganglia/python_modules').must_exist.with(:link_type, :symbolic).and(
-        :to,
-       case node[:platform]
-         when 'debian','ubuntu'
-           "/usr/lib/ganglia/python_modules"
-         when 'centos','redhat','fedora','amazon'
-           "/usr/lib#{RUBY_PLATFORM[/64/]}/ganglia/python_modules"
-         end
-      )
+    link('/etc/ganglia/python_modules').must_exist.with(:link_type, :symbolic).and(:to,
+      case node[:platform]
+      when 'debian','ubuntu'
+        "/usr/lib/ganglia/python_modules"
+      when 'centos','redhat','fedora','amazon'
+        "/usr/lib#{RUBY_PLATFORM[/64/]}/ganglia/python_modules"
+      end
+    )
   end
 end

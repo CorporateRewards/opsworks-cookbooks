@@ -31,10 +31,28 @@ end
 
 # ruby_version 1.8.7 is handled by 'ruby-enterprise'
 case node["opsworks"]["ruby_version"]
+when "2.2"
+  default[:ruby][:major_version] = '2'
+  default[:ruby][:minor_version] = '2'
+  if _platform == "amazon" && _platform_version < "2015.03"
+    default[:ruby][:patch_version] = '3'
+  else
+    default[:ruby][:patch_version] = '4'
+  end
+  default[:ruby][:pkgrelease]    = '1'
+
+  i = node[:ruby]
+  default[:ruby][:version] = "#{i[:major_version]}.#{i[:minor_version]}.#{i[:patch_version]}"
+  default[:ruby][:deb] = "opsworks-ruby#{i[:major_version]}.#{i[:minor_version]}_#{i[:major_version]}.#{i[:minor_version]}.#{i[:patch_version]}.#{i[:pkgrelease]}_#{arch}.deb"
+  default[:ruby][:rpm] = "opsworks-ruby#{i[:major_version]}#{i[:minor_version]}-#{i[:major_version]}.#{i[:minor_version]}.#{i[:patch_version]}-#{i[:pkgrelease]}.#{rhel_arch}.rpm"
 when "2.1"
   default[:ruby][:major_version] = '2'
   default[:ruby][:minor_version] = '1'
-  default[:ruby][:patch_version] = '1'
+  if _platform == "amazon" && _platform_version < "2015.03"
+    default[:ruby][:patch_version] = '7'
+  else
+    default[:ruby][:patch_version] = '8'
+  end
   default[:ruby][:pkgrelease]    = '1'
 
   i = node[:ruby]
@@ -44,12 +62,18 @@ when "2.1"
 when "2.0.0"
   default[:ruby][:major_version] = '2.0'
   default[:ruby][:full_version] = '2.0.0'
-  default[:ruby][:patch] = 'p451'
+  if _platform == "amazon" && _platform_version < "2014.03"
+    default[:ruby][:patch] = 'p451'
+  elsif _platform == "amazon" && _platform_version < "2015.03"
+    default[:ruby][:patch] = 'p645'
+  else
+    default[:ruby][:patch] = 'p648'
+  end
   default[:ruby][:pkgrelease] = '1'
 when "1.9.3"
   default[:ruby][:major_version] = '1.9'
   default[:ruby][:full_version] = '1.9.3'
-  default[:ruby][:patch] = 'p545'
+  default[:ruby][:patch] = 'p551'
   default[:ruby][:pkgrelease] = '1'
 else
   default[:ruby][:major_version] = ''
