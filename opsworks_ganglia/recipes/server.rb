@@ -2,19 +2,40 @@ include_recipe 'opsworks_ganglia::client'
 
 case node[:platform_family]
 when "rhel"
-  package node[:ganglia][:gmetad_package_name]
-  package node[:ganglia][:web_frontend_package_name]
+  package node[:ganglia][:gmetad_package_name] do
+    retries 3
+    retry_delay 5
+  end
+  package node[:ganglia][:web_frontend_package_name] do
+    retries 3
+    retry_delay 5
+  end
 
 when "debian"
   if platform?('ubuntu') && node[:platform_version] == '14.04'
-    package node[:ganglia][:gmetad_package_name]
-    package node[:ganglia][:web_frontend_package_name]
-    package 'apache2-utils'
+    package node[:ganglia][:gmetad_package_name] do
+      retries 3
+      retry_delay 5
+    end
+    package node[:ganglia][:web_frontend_package_name] do
+      retries 3
+      retry_delay 5
+    end
+    package "apache2-utils" do
+      retries 3
+      retry_delay 5
+    end
   else
-    package 'librrd4'
+    package "librrd4" do
+      retries 3
+      retry_delay 5
+    end
 
     node[:ganglia][:web_frontend_dependencies].each do |web_frontend_dependency|
-      package web_frontend_dependency
+      package web_frontend_dependency do
+        retries 3
+        retry_delay 5
+      end
     end
 
     pm_helper = OpsWorks::PackageManagerHelper.new(node)
@@ -67,7 +88,7 @@ service 'gmetad' do
   action :stop
 end
 
-include_recipe 'opsworks_ganglia::bind-mount-data'
+include_recipe 'opsworks_ganglia::bind-mount-data' if infrastructure_class?('ec2')
 
 template '/etc/ganglia/gmetad.conf' do
   source 'gmetad.conf.erb'
@@ -76,7 +97,7 @@ template '/etc/ganglia/gmetad.conf' do
 end
 
 execute "fix permissions on ganglia rrds directory" do
- command "chown -R #{node[:ganglia][:rrds_user]}:#{node[:ganglia][:user]} #{node[:ganglia][:datadir]}/rrds"
+ command "chown -R #{node[:ganglia][:rrds_user]}:#{node[:ganglia][:user]} #{node[:ganglia][:original_datadir]}/rrds"
 end
 
 include_recipe 'apache2::service'
