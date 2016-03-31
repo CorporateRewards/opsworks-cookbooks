@@ -1,24 +1,34 @@
 opsworks-cookbooks
 ==================
 
-These are the standard Chef cookbooks used by AWS OpsWorks.
+**This repo contains cookbooks used by AWS OpsWorks for Chef versions 11.10, 11.4 and 0.9.**
 
-If you want to override any template (like the Rails database.yml or the Apache vhost definition),
-this is the place to look for the originals.
+To get started with AWS OpsWorks cookbooks for all versions of Chef see the [cookbook documentation](https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook.html).
 
-The branches are organized as follows and depend on the
-[configuration manager](http://docs.aws.amazon.com/opsworks/latest/APIReference/API_CreateStack.html)
-used by your stack.
+If you want to override any template (like the Rails database.yml or the Apache
+vhost definition), this is the place to look for the originals.
 
-- Chef 11.4
-  - [release-chef-11.4](https://github.com/aws/opsworks-cookbooks/tree/release-chef-11.4): Cookbooks for the current release.
-  - [master-chef-11.4](https://github.com/aws/opsworks-cookbooks/tree/master-chef-11.4): Cookbooks for the next release.
-- Chef 0.9
-  - [release-chef-0.9](https://github.com/aws/opsworks-cookbooks/tree/release-chef-0.9): Cookbooks for the current release.
-  - [master-chef-0.9](https://github.com/aws/opsworks-cookbooks/tree/master-chef-0.9): Cookbooks for the next release.
+Chef version 12
+------------------------------------
 
-The `master` branch is no longer used since AWS OpsWorks supports
-multiple configuration managers now.
+**For Chef 12.2 Windows and Chef 12 Linux there are no built-in cookbooks**
+
+Chef versions 11.10, 11.4 and 0.9
+----------------------------------
+
+These branches contain the cookbooks that are used by official OpsWorks releases:
+
+- **Chef 11.10**: [release-chef-11.10](https://github.com/aws/opsworks-cookbooks/tree/release-chef-11.10)
+- **Chef 11.4**: [release-chef-11.4](https://github.com/aws/opsworks-cookbooks/tree/release-chef-11.4) (deprecated)
+- **Chef 0.9**: [release-chef-0.9](https://github.com/aws/opsworks-cookbooks/tree/release-chef-0.9) (deprecated)
+
+These branches reflect the upcoming changes for the next release:
+
+- **Chef 11.10**: [master-chef-11.10](https://github.com/aws/opsworks-cookbooks/tree/master-chef-11.10)
+- **Chef 11.4**: [master-chef-11.4](https://github.com/aws/opsworks-cookbooks/tree/master-chef-11.4) (deprecated)
+- **Chef 0.9**: [master-chef-0.9](https://github.com/aws/opsworks-cookbooks/tree/master-chef-0.9) (deprecated)
+
+The `master` branch is not used since AWS OpsWorks supports multiple configuration managers.
 
 See also <https://aws.amazon.com/opsworks/>
 
