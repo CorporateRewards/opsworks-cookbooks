@@ -20,6 +20,14 @@ template "/etc/munin/munin-node.conf" do
   source "munin-node.conf.erb"
 end
 
+# add our htpasswd file 
+cookbook_file "/etc/munin/htpasswd" do
+  mode "0640"
+  owner "root"
+  group "www-data"
+  source "htpasswd"
+end
+
 # add any extra plugins - if they and their congig exist
 node["munin-node"]["plugins"].each do |plugin|
   cookbook_file "/usr/local/munin/plugins/#{plugin}" do

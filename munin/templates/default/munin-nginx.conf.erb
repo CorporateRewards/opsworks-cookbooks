@@ -1,6 +1,9 @@
 server {
   listen   <%= @port %>;
   server_name  <%= @hostname %>
+  
+  auth_basic            "Private access";
+  auth_basic_user_file  /etc/munin/htpasswd;
 
   access_log  /var/log/nginx/munin.access.log;
 
