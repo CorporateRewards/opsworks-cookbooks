@@ -22,6 +22,14 @@ template "/etc/munin/munin.conf" do
   source "munin-master.conf.erb"
 end
 
+# add our htpasswd file 
+cookbook_file "/etc/munin/htpasswd" do
+  mode "0640"
+  owner "root"
+  group "www-data"
+  source "htpasswd"
+end
+
 # add a site for nginx to serve
 template "#{node[:nginx][:dir]}/sites-available/munin" do
   mode '0644'
