@@ -1,0 +1,27 @@
+*.gem
+*.rbc
+.config
+.bundle/install.log
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+tags
+test/tmp
+test/version_tmp
+tmp
+vendor
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
+/Gemfile.lock
+<<<<<<< HEAD
+.kitchen/
+.kitchen.local.yml
+=======
+build
+>>>>>>> c523cca7f80416ae9ecdf94a0a2a2560edd09976

@@ -1,7 +1,10 @@
-package 'socat'
+package "socat" do
+  retries 3
+  retry_delay 5
+end
 
-cookbook_file "/etc/ganglia/scripts/haproxy" do
-  source "haproxy.rb"
+template "/etc/ganglia/scripts/haproxy" do
+  source "haproxy.rb.erb"
   mode "0755"
 end
 

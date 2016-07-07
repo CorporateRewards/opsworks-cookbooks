@@ -20,6 +20,7 @@ module OpsWorks
 
         remote_file "#{tmpdir}/archive" do
           source archive_url
+          retries 3
         end
 
         execute 'extract files' do
@@ -28,7 +29,7 @@ module OpsWorks
 
         execute 'create git repository' do
           cwd "#{tmpdir}/archive.d"
-          command "find . -type d -name .git -exec rm -rf {} \\;; find . -type f -name .gitignore -exec rm -f {} \\;; git init; git add .; git -c user.name='AWS OpsWorks' -c user.email=none commit -m 'Create temporary repository from downloaded contents.'"
+          command "find . -type d -name .git -exec rm -rf {} \\;; find . -type f -name .gitignore -exec rm -f {} \\;; git init; git add .; git config user.name 'AWS OpsWorks'; git config user.email 'root@localhost'; git commit -m 'Create temporary repository from downloaded contents.'"
         end
 
         "#{tmpdir}/archive.d"

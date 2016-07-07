@@ -16,18 +16,19 @@ node[:ebs][:devices].each do |device, options|
     mode "0755"
   end
 
-  mount options[:mount_point] do
-    fstype options[:fstype]
-    device device
-    options "noatime"
-    pass 0
+  if options[:mount_point].nil? || options[:mount_point].empty?
+    log "skip mounting volume #{device} because no mount_point specified"
+    next
   end
 
   mount options[:mount_point] do
-    action :enable
+    action [:mount, :enable]
     fstype options[:fstype]
     device device
-    options "noatime"
+    options value_for_platform_family(
+      'rhel' => "noatime",
+      'debian' => "noatime,nobootwait"
+    )
     pass 0
   end
 

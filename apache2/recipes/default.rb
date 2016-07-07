@@ -18,12 +18,9 @@
 #
 
 package 'apache2' do
-  case node[:platform_family]
-  when 'rhel'
-    package_name 'httpd'
-  when 'debian'
-    package_name 'apache2'
-  end
+  package_name value_for_platform_family(:rhel => "httpd", :debian => "apache2")
+  retries 3
+  retry_delay 5
   action :install
 end
 
@@ -54,7 +51,7 @@ bash 'logdir_existence_and_restart_apache2' do
   EOF
   action :nothing
   notifies :restart, resources(:service => 'apache2')
-  timeout 30
+  timeout 70
 end
 
 if platform_family?('rhel')
