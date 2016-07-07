@@ -41,7 +41,7 @@ end
 
 #start this site in nginx
 execute "nxensite munin" do
-  command "/usr/sbin/nxensite default"
+  command "/usr/sbin/nxensite munin"
   notifies :reload, "service[nginx]"
   not_if do File.symlink?("#{node[:nginx][:dir]}/sites-enabled/munin") end
 end
