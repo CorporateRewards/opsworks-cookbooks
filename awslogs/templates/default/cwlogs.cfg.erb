@@ -28,7 +28,7 @@ state_file = /var/awslogs/state/agent-state
 #
 
 #test for XXXX log file
-#<% If File.exist?('') -%>
+#<% if File.exist?('') -%>
 #  [<%= node[:opsworks][:stack][:name] %>_XXXX]
 #  datetime_format = [%Y-%m-%d %H:%M:%S]
 #  log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
@@ -37,7 +37,7 @@ state_file = /var/awslogs/state/agent-state
 #<% end -%>
 
 #test for nginx access log log file
-<% If File.exist?("/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.log") -%>
+<% if File.exist?("/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.log") -%>
   [<%= node[:opsworks][:stack][:name] %>_nginx_access]
   datetime_format = [%Y/%m/%d %H:%M:%S]
   log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
@@ -46,7 +46,7 @@ state_file = /var/awslogs/state/agent-state
 <% end -%>
 
 #test for Rails log file
-<% If File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log") -%>
+<% if File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log") -%>
   [<%= node[:opsworks][:stack][:name] %>_rails]
   datetime_format = [%Y-%m-%dT%H:%M:%S]
   log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
@@ -55,7 +55,7 @@ state_file = /var/awslogs/state/agent-state
 <% end -%>
 
 #test for sidekiq log file
-<% If File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/sidekiq.log") -%>
+<% if File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/sidekiq.log") -%>
   [<%= node[:opsworks][:stack][:name] %>_sidekiq]
   datetime_format = [%Y-%m-%dT%H:%M:%S]
   log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
@@ -64,7 +64,7 @@ state_file = /var/awslogs/state/agent-state
 <% end -%>
 
 #test for auth log file
-<% If File.exist?('/var/log/auth.log') -%>
+<% if File.exist?('/var/log/auth.log') -%>
   [<%= node[:opsworks][:stack][:name] %>_auth]
   datetime_format = %b %d %H:%M:%S
   log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
