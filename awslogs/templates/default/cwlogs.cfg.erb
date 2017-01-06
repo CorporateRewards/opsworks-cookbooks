@@ -37,8 +37,8 @@ state_file = /var/awslogs/state/agent-state
 #<% end -%>
 
 #test for nginx access log log file
-<% Chef::Log.info("/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.log") %>
 <% if File.exist?("/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.log") -%>
+  <% Chef::Log.info("Found Nginx access log") %>
   [<%= node[:opsworks][:stack][:name] %>_nginx_access]
   datetime_format = [%Y/%m/%d %H:%M:%S]
   log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
@@ -47,28 +47,28 @@ state_file = /var/awslogs/state/agent-state
 <% end -%>
 
 #test for Rails log file
-<% Chef::Log.info("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log") %>
-<% if File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log") -%>
+<% if File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/log/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log") -%>
+  <% Chef::Log.info("Found Rails log") %>
   [<%= node[:opsworks][:stack][:name] %>_rails]
   datetime_format = [%Y-%m-%dT%H:%M:%S]
   log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
-  file = "/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log" %>
+  file = "/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/log/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log" %>
   log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_rails
 <% end -%>
 
 #test for sidekiq log file
-<% Chef::Log.info("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/sidekiq.log") %>
-<% if File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/sidekiq.log") -%>
+<% if File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/log/sidekiq.log") -%>
+  <% Chef::Log.info("Found Sidekiq log") %>
   [<%= node[:opsworks][:stack][:name] %>_sidekiq]
   datetime_format = [%Y-%m-%dT%H:%M:%S]
   log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
-  file = <%= node[:cwlogs][:logfile] %>
+  file = <%= "/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/log/sidekiq.log" %>
   log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_sidekiq
 <% end -%>
 
 #test for auth log file
-<% Chef::Log.info('/var/log/auth.log') %>
 <% if File.exist?('/var/log/auth.log') -%>
+  <% Chef::Log.info("Found Auth log") %>
   [<%= node[:opsworks][:stack][:name] %>_auth]
   datetime_format = %b %d %H:%M:%S
   log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
