@@ -1,0 +1,73 @@
+[general]
+# Path to the AWSLogs agent's state file. Agent uses this file to maintain
+# client side state across its executions.
+state_file = /var/awslogs/state/agent-state
+
+
+## Each log file is defined in its own section. The section name doesn't
+## matter as long as its unique within this file.
+#
+#[kern.log]
+#
+## Path of log file for the agent to monitor and upload.
+#
+#file = /var/log/kern.log
+#
+## Name of the destination log group.
+#
+#log_group_name = kern.log
+#
+## Name of the destination log stream.
+#
+#log_stream_name = {instance_id}
+#
+## Format specifier for timestamp parsing.
+#
+#datetime_format = %b %d %H:%M:%S
+#
+#
+
+#test for XXXX log file
+#<% If File.exist?('') -%>
+#  [<%= node[:opsworks][:stack][:name] %>_XXXX]
+#  datetime_format = [%Y-%m-%d %H:%M:%S]
+#  log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
+#  file = <%= node[:cwlogs][:logfile] %>
+#  log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_XXXX
+#<% end -%>
+
+#test for nginx access log log file
+<% If File.exist?("/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.log") -%>
+  [<%= node[:opsworks][:stack][:name] %>_nginx_access]
+  datetime_format = [%Y/%m/%d %H:%M:%S]
+  log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
+  file = <%= "/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.log" %>
+  log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_nginx_access
+<% end -%>
+
+#test for Rails log file
+<% If File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log") -%>
+  [<%= node[:opsworks][:stack][:name] %>_rails]
+  datetime_format = [%Y-%m-%dT%H:%M:%S]
+  log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
+  file = "/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log" %>
+  log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_rails
+<% end -%>
+
+#test for sidekiq log file
+<% If File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/logs/sidekiq.log") -%>
+  [<%= node[:opsworks][:stack][:name] %>_sidekiq]
+  datetime_format = [%Y-%m-%dT%H:%M:%S]
+  log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
+  file = <%= node[:cwlogs][:logfile] %>
+  log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_sidekiq
+<% end -%>
+
+#test for auth log file
+<% If File.exist?('/var/log/auth.log') -%>
+  [<%= node[:opsworks][:stack][:name] %>_auth]
+  datetime_format = %b %d %H:%M:%S
+  log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
+  file = <%= node[:cwlogs][:logfile] %>
+  log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_auth
+<% end -%>
