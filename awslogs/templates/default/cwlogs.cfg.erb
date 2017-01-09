@@ -46,11 +46,11 @@ log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_nginx_access
 datetime_format = [%Y/%m/%d %H:%M:%S]
 <% end -%>
 
-#test for Nginx log file with log_format <%= "/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"][0]}.access.log" %>
-<% if File.exist?("/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"][0]}.access.log") -%>
+#test for Nginx log file with log_format <%= "/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"][0]}.log" %>
+<% if File.exist?("/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"][0]}.log") -%>
 <% Chef::Log.info("Found Nginx access log with log format") %>
 [<%= node[:opsworks][:stack][:name] %>_nginx_<%= node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"][0] %>]
-file = <%= "/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"][0]}.access.log" %>
+file = <%= "/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"][0]}.log" %>
 log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
 log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_nginx_<%= node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"][0] %>
 datetime_format = [%Y/%m/%d %H:%M:%S]
