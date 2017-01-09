@@ -36,11 +36,21 @@ state_file = /var/awslogs/state/agent-state
 #datetime_format = [%Y-%m-%d %H:%M:%S]
 #<% end -%>
 
-#test for nginx access log log file
+#test for nginx access log file
 <% if File.exist?("/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.log") -%>
 <% Chef::Log.info("Found Nginx access log") %>
 [<%= node[:opsworks][:stack][:name] %>_nginx_access]
 file = <%= "/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.access.log" %>
+log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
+log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_nginx_access
+datetime_format = [%Y/%m/%d %H:%M:%S]
+<% end -%>
+
+#test for Nginx log file with log_format
+<% if File.exist?("/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.#{node["opsworks"]["applications"][0]["log_format"]}.access.log") -%>
+<% Chef::Log.info("Found Nginx access log with log format") %>
+[<%= node[:opsworks][:stack][:name] %>_nginx_<%= node["opsworks"]["applications"][0]["log_format"] %>]
+file = <%= "/var/log/nginx/#{node["opsworks"]["applications"][0]["slug_name"]}.#{node["opsworks"]["application"][0]["log_format"]}.access.log" %>
 log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
 log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_nginx_access
 datetime_format = [%Y/%m/%d %H:%M:%S]
@@ -51,16 +61,6 @@ datetime_format = [%Y/%m/%d %H:%M:%S]
 <% Chef::Log.info("Found Rails log") %>
 [<%= node[:opsworks][:stack][:name] %>_rails]
 file = <%= "/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/log/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log" %>
-log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
-log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_rails
-datetime_format = [%Y-%m-%dT%H:%M:%S]
-<% end -%>
-
-#test for Rails log file with log_format
-<% if File.exist?("/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/log/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"]}.log") -%>
-<% Chef::Log.info("Found Rails log with log_format") %>
-[<%= node[:opsworks][:stack][:name] %>_rails]
-file = <%= "/srv/www/#{node["opsworks"]["applications"][0]["slug_name"]}/shared/log/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["log_format"]}.log" %>
 log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
 log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_rails
 datetime_format = [%Y-%m-%dT%H:%M:%S]
