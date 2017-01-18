@@ -71,7 +71,16 @@ server {
 server {
   listen   443;
   server_name <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
+  
+  <% if @application[:log_format] %>
+    <% @application[:log_format].each do |log_format_name| %>
+  access_log <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.<%= log_format_name %>.log <%= log_format_name %>;
+    <% end %>
+  <% else %>
   access_log <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>-ssl.access.log;
+  <%end %>
+  
+  
   
   ssl on;
   ssl_certificate /etc/nginx/ssl/<%= @application[:domains].first %>.crt;
