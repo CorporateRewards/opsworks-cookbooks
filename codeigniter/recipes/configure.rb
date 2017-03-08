@@ -3,7 +3,7 @@ include_recipe "deploy"
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
-  template "#{deploy[:deploy_to]}/application/config/database.php" do
+  template "#{deploy[:release_path]}/application/config/database.php" do
     source "db.erb"
     cookbook 'codeigniter'
     mode "0660"
