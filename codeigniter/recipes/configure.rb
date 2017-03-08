@@ -10,6 +10,15 @@ node[:deploy].each do |application, deploy|
     group deploy[:group]
     owner deploy[:user]
     variables(:database => deploy[:database])
-
   end
+
+  template "#{deploy[:deploy_to]}/shared/config/config.php" do
+    source "config.erb"
+    cookbook 'codeigniter'
+    mode "0660"
+    group deploy[:group]
+    owner deploy[:user]
+    variables(:config => deploy[:config])
+  end
+
 end
