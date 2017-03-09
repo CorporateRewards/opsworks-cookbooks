@@ -11,7 +11,7 @@ node[:deploy].each do |application, deploy|
   end
 
   directory "#{deploy[:deploy_to]}/shared/sessions" do
-    mode 0660
+    mode 0670
     group deploy[:group]
     owner deploy[:user]
     action :create
