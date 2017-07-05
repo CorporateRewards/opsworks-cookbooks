@@ -20,5 +20,3 @@ _yardoc
 doc/
 /Gemfile.lock
 build
-.kitchen/
-.kitchen.local.yml
