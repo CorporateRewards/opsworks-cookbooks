@@ -2,11 +2,23 @@ if node[:opsworks][:layers].has_key?('monitoring-master')
   case node[:platform_family]
   when "debian"
     if platform?('ubuntu') && node[:platform_version] == '14.04'
-      package node[:ganglia][:monitor_package_name]
-      package node[:ganglia][:monitor_plugins_package_name]
+      package node[:ganglia][:monitor_package_name] do
+        retries 3
+        retry_delay 5
+      end
+      package node[:ganglia][:monitor_plugins_package_name] do
+        retries 3
+        retry_delay 5
+      end
     else
-      package 'libapr1'
-      package 'libconfuse0'
+      package "libapr1" do
+        retries 3
+        retry_delay 5
+      end
+      package "libconfuse0" do
+        retries 3
+        retry_delay 5
+      end
 
       pm_helper = OpsWorks::PackageManagerHelper.new(node)
 
@@ -47,18 +59,20 @@ if node[:opsworks][:layers].has_key?('monitoring-master')
     end
 
   when "rhel"
-    package node[:ganglia][:monitor_package_name]
-    package node[:ganglia][:monitor_plugins_package_name]
+    package node[:ganglia][:monitor_package_name] do
+      retries 3
+      retry_delay 5
+    end
+    package node[:ganglia][:monitor_plugins_package_name] do
+      retries 3
+      retry_delay 5
+    end
   end
 
-  execute 'stop gmond with non-updated configuration' do
-    command value_for_platform_family(
-      "rhel" => '/etc/init.d/gmond stop',
-      "debian" =>
-        platform?('ubuntu') && node[:platform_version] == '14.04' ? \
-          'service ganglia-monitor status | grep stop || service ganglia-monitor stop' : \
-          '/etc/init.d/ganglia-monitor stop'
-    )
+  service "gmond" do
+    service_name value_for_platform_family("rhel" => "gmond", "debian" => "ganglia-monitor")
+    action :stop
+    init_command "/usr/sbin/service ganglia-monitor" if platform?("ubuntu") && node[:platform_version] == "14.04"
   end
 
   # old broken installations have this empty directory

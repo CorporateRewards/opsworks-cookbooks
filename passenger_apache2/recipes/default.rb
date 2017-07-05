@@ -29,13 +29,22 @@ include_recipe 'apache2::service'
 
 case node[:platform]
 when "centos","redhat","amazon"
-  package "httpd-devel"
+  package "httpd-devel" do
+    retries 3
+    retry_delay 5
+  end
+
   if node['platform_version'].to_f < 6.0
-    package 'curl-devel'
+    package "curl-devel" do
+      retries 3
+      retry_delay 5
+    end
   else
     ['libcurl-devel','openssl-devel','zlib-devel'].each do |pkg|
       package pkg do
         action :upgrade
+        retries 3
+        retry_delay 5
       end
     end
   end
@@ -43,17 +52,23 @@ else
   ['apache2-prefork-dev','libapr1-dev'].each do |pkg|
     package pkg do
       action :upgrade
+        retries 3
+        retry_delay 5
     end
   end
 
   if node[:passenger][:version] >= '3.0.0'
-    package 'libcurl4-openssl-dev'
+    package "libcurl4-openssl-dev" do
+      retries 3
+      retry_delay 5
+    end
   end
 end
 
 ruby_block "ensure only our passenger version is installed by deinstalling any other version" do
   block do
-    ensure_only_gem_version('passenger', node[:passenger][:version])
+    ensure_only_gem_version("rack", node[:passenger][:rack_version])
+    ensure_only_gem_version("passenger", node[:passenger][:version])
   end
 end
 
@@ -61,4 +76,13 @@ execute "passenger_module" do
   command 'passenger-install-apache2-module -a'
   creates node[:passenger][:module_path]
   notifies :restart, "service[apache2]"
+end
+
+bash "Enable selinux httpd_t for passenger" do
+  user "root"
+  code <<-EOH
+    semanage permissive -a httpd_t
+  EOH
+  not_if { OpsWorks::ShellOut.shellout("/usr/sbin/semanage permissive -l") =~ /httpd_t/ }
+  only_if { platform_family?("rhel") && ::File.exist?("/usr/sbin/getenforce") && OpsWorks::ShellOut.shellout("/usr/sbin/getenforce").strip == "Enforcing" }
 end

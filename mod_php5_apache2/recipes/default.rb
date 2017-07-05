@@ -4,6 +4,8 @@ node[:mod_php5_apache2][:packages].each do |pkg|
   package pkg do
     action :install
     ignore_failure(pkg.to_s.match(/^php-pear-/) ? true : false) # some pear packages come from EPEL which is not always available
+    retries 3
+    retry_delay 5
   end
 end
 
@@ -13,6 +15,16 @@ node[:deploy].each do |application, deploy|
     next
   end
   next if node[:deploy][application][:database].nil?
+
+  bash "Enable network database access for httpd" do
+    boolean = "httpd_can_network_connect_db"
+    user "root"
+    code <<-EOH
+      semanage boolean --modify #{boolean} --on
+    EOH
+    not_if { OpsWorks::ShellOut.shellout("/usr/sbin/getsebool #{boolean}") =~ /#{boolean}\s+-->\s+on\)/ }
+    only_if { platform_family?("rhel") && ::File.exist?("/usr/sbin/getenforce") && OpsWorks::ShellOut.shellout("/usr/sbin/getenforce").strip == "Enforcing" }
+  end
 
   case node[:deploy][application][:database][:type]
   when "postgresql"
