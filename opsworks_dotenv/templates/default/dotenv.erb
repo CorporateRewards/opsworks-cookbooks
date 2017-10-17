@@ -1,0 +1,13 @@
+<!--
+@Author: Ted Moyses
+@Date:   2017-10-17T22:49:18+01:00
+@Email:  ted.moyses@corporaterewards.co.uk
+@Filename: dotenv.erb
+@Last modified by:   Ted Moyses
+@Last modified time: 2017-10-17T22:55:59+01:00
+-->
+
+
+<% @vars.each do |var| %>
+<%=var.name%>=<%var.value%>
+<% end %>
