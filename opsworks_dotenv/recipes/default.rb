@@ -3,7 +3,7 @@
 # @Email:  ted.moyses@corporaterewards.co.uk
 # @Filename: default.rb
 # @Last modified by:   Ted Moyses
-# @Last modified time: 2017-10-18T02:23:43+01:00
+# @Last modified time: 2017-10-18T02:30:01+01:00
 
 node[:deploy].each do |application, deploy|
   vars={}
@@ -16,6 +16,6 @@ node[:deploy].each do |application, deploy|
     mode 0440
     owner deploy[:user]
     group deploy[:group]
-    variables (vars)
+    variables ({:vars => vars})
   end
 end
