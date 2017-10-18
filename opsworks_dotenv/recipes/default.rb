@@ -3,18 +3,19 @@
 # @Email:  ted.moyses@corporaterewards.co.uk
 # @Filename: default.rb
 # @Last modified by:   Ted Moyses
-# @Last modified time: 2017-10-18T01:43:22+01:00
+# @Last modified time: 2017-10-18T02:03:55+01:00
 
+node[:deploy].each do |app|
+  vars={}
+  node[:deploy][app][:environment_variables].each do |key, value|
+    vars[key] = value
+  end
 
-vars={}
-node[:deploy][application][:environment_variables].each do |key, value|
-  vars[key] = value
-end
-
-template "#{node[:deploy_to]}.env" do
-  source 'dotenv.erb'
-  mode 0440
-  owner 'deploy'
-  groups 'www'
-  variables (vars)
+  template "#{node[:deploy_to]}.env" do
+    source 'dotenv.erb'
+    mode 0440
+    owner 'deploy'
+    groups 'www'
+    variables (vars)
+  end
 end
