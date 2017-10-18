@@ -3,7 +3,7 @@
 # @Email:  ted.moyses@corporaterewards.co.uk
 # @Filename: default.rb
 # @Last modified by:   Ted Moyses
-# @Last modified time: 2017-10-18T02:12:50+01:00
+# @Last modified time: 2017-10-18T02:18:14+01:00
 
 node[:deploy].each do |application, deploy|
   vars={}
@@ -15,7 +15,7 @@ node[:deploy].each do |application, deploy|
     source 'dotenv.erb'
     mode 0440
     owner 'deploy'
-    groups 'www'
+    group 'www'
     variables (vars)
   end
 end
