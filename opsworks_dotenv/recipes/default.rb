@@ -3,11 +3,11 @@
 # @Email:  ted.moyses@corporaterewards.co.uk
 # @Filename: default.rb
 # @Last modified by:   Ted Moyses
-# @Last modified time: 2017-10-18T02:03:55+01:00
+# @Last modified time: 2017-10-18T02:12:50+01:00
 
-node[:deploy].each do |app|
+node[:deploy].each do |application, deploy|
   vars={}
-  node[:deploy][app][:environment_variables].each do |key, value|
+  deploy[:environment_variables].each do |key, value|
     vars[key] = value
   end
 
