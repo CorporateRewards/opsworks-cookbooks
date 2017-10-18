@@ -3,7 +3,7 @@
 # @Email:  ted.moyses@corporaterewards.co.uk
 # @Filename: default.rb
 # @Last modified by:   Ted Moyses
-# @Last modified time: 2017-10-18T01:15:41+01:00
+# @Last modified time: 2017-10-18T01:29:15+01:00
 
 
 vars={}
@@ -16,5 +16,5 @@ template "#{node[:deploy_to]}.env" do
   mode 0440
   owner 'deploy'
   groups 'www'
-  variables ({vars})
+  variables (vars)
 end
