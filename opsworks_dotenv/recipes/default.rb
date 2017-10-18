@@ -3,12 +3,12 @@
 # @Email:  ted.moyses@corporaterewards.co.uk
 # @Filename: default.rb
 # @Last modified by:   Ted Moyses
-# @Last modified time: 2017-10-17T23:18:57+01:00
+# @Last modified time: 2017-10-18T01:15:41+01:00
 
 
 vars={}
 node[:deploy][application][:environment_variables].each do |key, value|
-  vars[key].to_sym => value
+  vars[key] => value
 end
 
 template "#{node[:deploy_to]}.env" do
