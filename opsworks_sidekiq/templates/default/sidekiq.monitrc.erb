@@ -1,0 +1,5 @@
+check process sidekiq_<%= @name %>
+  with pidfile "<%= @pid_file %>"
+  start program = "/usr/local/bin/start_sidekiq_<%= @name %>.sh" with timeout 30 seconds
+  stop program = "/usr/local/bin/stop_sidekiq_<%= @name %>.sh" with timeout 30 seconds
+  group <%= @name %>
