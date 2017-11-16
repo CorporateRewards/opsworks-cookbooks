@@ -6,7 +6,7 @@
 
 node[:deploy].each do |application, deploy|
 
-  node['deploy']['sidekiq']['queues'].each do |name, config|
+  node['sidekiq']['queues'].each do |name, config|
     opsworks_sidekiq "#{name}" do
       config = config
       queue_name = name
