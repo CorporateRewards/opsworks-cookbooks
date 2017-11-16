@@ -5,7 +5,7 @@ action :create do
   rails_root = new_resource.working_directory
   rails_env  = new_resource.rails_env || node['sidekiq']['rails_env']
 
-  config      = new_resource.clock_file || node['sidekiq']['config']
+  config      = new_resource.config || node['sidekiq']['config']
   queue_name = ::File.basename(config, ".yml")
   pid_dir    = new_resource.pid_dir || node['sidekiq']['pid_dir']
   log_dir    = new_resource.log_dir || node['sidekiq']['log_dir']
