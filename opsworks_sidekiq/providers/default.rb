@@ -47,7 +47,7 @@ action :create do
               "queue_name" => queue_name,
               "rails_root" => rails_root,
               "rails_env" => rails_env,
-              "config" => config
+              "config" => config,
               "pid_file" => pid_file
   end
 
