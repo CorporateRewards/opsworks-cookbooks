@@ -1,7 +1,3 @@
-# @Date:   2017-11-15T10:53:04+00:00
-# @Last modified time: 2017-11-17T09:19:27+00:00
-
-
 
 actions :create
 default_action :create

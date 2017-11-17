@@ -1,8 +1,3 @@
-# @Date:   2017-11-15T10:53:04+00:00
-# @Last modified time: 2017-11-17T09:42:08+00:00
-
-
-
 #
 # Cookbook Name:: opsworks_sidekiq
 # Recipe:: default

@@ -5,8 +5,8 @@ action :create do
   rails_root = new_resource.working_directory
   rails_env  = new_resource.rails_env || node['sidekiq']['rails_env']
 
-  config      = new_resource.config || node['sidekiq']['config']
-  queue_name = ::File.basename(config, ".yml")
+  config      = new_resource.config
+  queue_name = new_resource.queue_name || ::File.basename(config, ".yml")
   pid_dir    = new_resource.pid_dir || node['sidekiq']['pid_dir']
   log_dir    = new_resource.log_dir || node['sidekiq']['log_dir']
 
@@ -48,6 +48,7 @@ action :create do
               "rails_root" => rails_root,
               "rails_env" => rails_env,
               "config" => config
+              "pid_file" => pid_file
   end
 
   template "/usr/local/bin/start_sidekiq_#{queue_name}.sh" do
@@ -71,7 +72,7 @@ action :create do
     owner 'root'
     group 'root'
     mode '0644'
-    variables "name" => name,
+    variables "name" => queue_name,
               "pid_file" => pid_file
     notifies :run, "execute[reload-monit-for-sidekiq]", :immediately # Run immediately to ensure the following command works
   end
