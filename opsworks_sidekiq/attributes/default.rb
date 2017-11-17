@@ -1,7 +1,7 @@
 default['sidekiq'] = {}
 
-default['sidekiq']['pid_dir'] = 'tmp/pids'
-default['sidekiq']['log_dir'] = 'log'
+default['sidekiq']['pid_dir'] = '/tmp/pids'
+default['sidekiq']['log_dir'] = '/log'
 default['sidekiq']['rails_env'] = 'production'
 
 default['sidekiq']['queues'] = {}
