@@ -48,7 +48,8 @@ action :create do
               "rails_root" => rails_root,
               "rails_env" => rails_env,
               "config" => config,
-              "pid_file" => pid_file
+              "pid_file" => pid_file,
+              "log_file" => log_file
   end
 
   template "/usr/local/bin/start_sidekiq_#{queue_name}.sh" do
