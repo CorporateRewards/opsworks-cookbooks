@@ -5,7 +5,7 @@ action :create do
   rails_root = new_resource.working_directory
   rails_env  = new_resource.rails_env || node['sidekiq']['rails_env']
 
-  config_file      = File::realpath(new_resource.config, rails_root)
+  config_file      = ::File.realpath(new_resource.config, rails_root)
   config = YAML.load_file(config_file)
 
   queue_name = config[:queues].first || new_resource.queue_name || ::File.basename(config, ".yml")
@@ -13,8 +13,8 @@ action :create do
   pid_dir    = new_resource.pid_dir || node['sidekiq']['pid_dir']
   log_dir    = new_resource.log_dir || node['sidekiq']['log_dir']
 
-  pid_file = File::realpath(File::basename(config[:pidfile]), pid_dir)
-  log_file = File::realpath(File::basename(config[:logfile]), log_dir)
+  pid_file = ::File.realpath(::File.basename(config[:pidfile]), pid_dir)
+  log_file = ::File.realpath(::File.basename(config[:logfile]), log_dir)
 
 #  pid_file   = "#{rails_root}#{pid_dir}/sidekiq_#{queue_name}.pid"
 #  log_file   = "#{rails_root}#{log_dir}/sidekiq_#{queue_name}.log"
