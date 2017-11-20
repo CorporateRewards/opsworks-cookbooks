@@ -5,13 +5,19 @@ action :create do
   rails_root = new_resource.working_directory
   rails_env  = new_resource.rails_env || node['sidekiq']['rails_env']
 
-  config      = new_resource.config
-  queue_name = new_resource.queue_name || ::File.basename(config, ".yml")
+  config_file      = new_resource.config
+  config = YAML.load_file(config_file)
+
+  queue_name = config[:queues][0] || new_resource.queue_name || ::File.basename(config, ".yml")
+
   pid_dir    = new_resource.pid_dir || node['sidekiq']['pid_dir']
   log_dir    = new_resource.log_dir || node['sidekiq']['log_dir']
 
-  pid_file   = "#{rails_root}#{pid_dir}/sidekiq_#{queue_name}.pid"
-  log_file   = "#{rails_root}#{log_dir}/sidekiq_#{queue_name}.log"
+  pid_file = config[:pidfile]
+  log_file = condig[:logfile]
+
+#  pid_file   = "#{rails_root}#{pid_dir}/sidekiq_#{queue_name}.pid"
+#  log_file   = "#{rails_root}#{log_dir}/sidekiq_#{queue_name}.log"
 
   execute "reload-monit-for-sidekiq" do
     command "monit -Iv reload"
