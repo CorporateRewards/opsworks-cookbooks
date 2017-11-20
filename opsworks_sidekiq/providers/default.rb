@@ -10,8 +10,8 @@ action :create do
   pid_dir    = new_resource.pid_dir || node['sidekiq']['pid_dir']
   log_dir    = new_resource.log_dir || node['sidekiq']['log_dir']
 
-  pid_file   = "#{rails_root}#{pid_dir}/sidekiq.#{queue_name}.pid"
-  log_file   = "#{rails_root}#{log_dir}/sidekiq.#{queue_name}.log"
+  pid_file   = "#{rails_root}#{pid_dir}/sidekiq_#{queue_name}.pid"
+  log_file   = "#{rails_root}#{log_dir}/sidekiq_#{queue_name}.log"
 
   execute "reload-monit-for-sidekiq" do
     command "monit -Iv reload"
@@ -34,6 +34,11 @@ action :create do
     mode 0755
     action :create_if_missing
   end
+
+  puts "Sidekiq queue found for #{queue_name}"
+  puts "Sidekiq config = #{config}"
+  puts "Sidekiq pid_file = #{pid_file}"
+  puts "Sidekiq log_file = #{log_file}"
 
   template "/usr/local/bin/stop_sidekiq_#{queue_name}.sh" do
     source 'stop_sidekiq.sh.erb'
@@ -64,7 +69,9 @@ action :create do
               "queue_name" => queue_name,
               "rails_root" => rails_root,
               "rails_env" => rails_env,
-              "config" => config
+              "config" => config,
+              "pid_file" => pid_file,
+              "log_file" => log_file
   end
 
   template "#{node.default["monit"]["conf_dir"]}/sidekiq_#{queue_name}.monitrc" do
