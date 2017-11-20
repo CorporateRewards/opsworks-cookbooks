@@ -8,13 +8,13 @@ action :create do
   config_file      = new_resource.config
   config = YAML.load_file("#{rails_root}#{config_file}")
 
-  queue_name = config[:queues][0] || new_resource.queue_name || ::File.basename(config, ".yml")
+  queue_name = config[:queues].first || new_resource.queue_name || ::File.basename(config, ".yml")
 
   pid_dir    = new_resource.pid_dir || node['sidekiq']['pid_dir']
   log_dir    = new_resource.log_dir || node['sidekiq']['log_dir']
 
-  pid_file = config[:pidfile]
-  log_file = config[:logfile]
+  pid_file = pid_dir + File::basname(config[:pidfile])
+  log_file = log_dir + File::basname(config[:logfile])
 
 #  pid_file   = "#{rails_root}#{pid_dir}/sidekiq_#{queue_name}.pid"
 #  log_file   = "#{rails_root}#{log_dir}/sidekiq_#{queue_name}.log"
