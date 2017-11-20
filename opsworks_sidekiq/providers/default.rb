@@ -13,8 +13,8 @@ action :create do
   pid_dir    = new_resource.pid_dir || node['sidekiq']['pid_dir']
   log_dir    = new_resource.log_dir || node['sidekiq']['log_dir']
 
-  pid_file = ::File.realpath(::File.basename(config[:pidfile]), pid_dir)
-  log_file = ::File.realpath(::File.basename(config[:logfile]), log_dir)
+  pid_file = ::File.realpath(config[:pidfile], rails_root)
+  log_file = ::File.realpath(config[:logfile], rails_root)
 
 #  pid_file   = "#{rails_root}#{pid_dir}/sidekiq_#{queue_name}.pid"
 #  log_file   = "#{rails_root}#{log_dir}/sidekiq_#{queue_name}.log"
