@@ -14,7 +14,7 @@ action :create do
   log_dir    = new_resource.log_dir || node['sidekiq']['log_dir']
 
   pid_file = config[:pidfile]
-  log_file = condig[:logfile]
+  log_file = config[:logfile]
 
 #  pid_file   = "#{rails_root}#{pid_dir}/sidekiq_#{queue_name}.pid"
 #  log_file   = "#{rails_root}#{log_dir}/sidekiq_#{queue_name}.log"
@@ -58,7 +58,7 @@ action :create do
               "queue_name" => queue_name,
               "rails_root" => rails_root,
               "rails_env" => rails_env,
-              "config" => config,
+              "config" => config_file,
               "pid_file" => pid_file,
               "log_file" => log_file
   end
@@ -75,7 +75,7 @@ action :create do
               "queue_name" => queue_name,
               "rails_root" => rails_root,
               "rails_env" => rails_env,
-              "config" => config,
+              "config" => config_file,
               "pid_file" => pid_file,
               "log_file" => log_file
   end
