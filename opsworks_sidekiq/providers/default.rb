@@ -6,7 +6,7 @@ action :create do
   rails_env  = new_resource.rails_env || node['sidekiq']['rails_env']
 
   config_file      = new_resource.config
-  config = YAML.load_file(config_file)
+  config = YAML.load_file("#{rails_root}#{config_file}")
 
   queue_name = config[:queues][0] || new_resource.queue_name || ::File.basename(config, ".yml")
 
