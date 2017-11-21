@@ -1,4 +1,4 @@
-requrie 'pathname'
+require 'pathname'
 
 action :create do
   name       = new_resource.name
