@@ -12,8 +12,8 @@ action :create do
 
   queue_name = config[:queues].first || new_resource.queue_name || ::File.basename(config, ".yml")
 
-  pid_file = ::Pathname.new("#{rails_root}/#{config[:pidfile]}").cleanpath
-  log_file = ::Pathname.new("#{rails_root}/#{config[:logfile]}").cleanpath
+  pid_file = ::Pathname.new("#{rails_root}/#{config[:pidfile]}").cleanpath.to_s
+  log_file = ::Pathname.new("#{rails_root}/#{config[:logfile]}").cleanpath.to_s
 
   pid_dir    = ::File.dirname(pid_file) || new_resource.pid_dir || node['sidekiq']['pid_dir']
   log_dir    = ::File.dirname(log_file) || new_resource.log_dir || node['sidekiq']['log_dir']
