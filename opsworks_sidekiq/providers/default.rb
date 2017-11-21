@@ -1,3 +1,5 @@
+requrie 'pathname'
+
 action :create do
   name       = new_resource.name
   user       = new_resource.user
@@ -10,11 +12,11 @@ action :create do
 
   queue_name = config[:queues].first || new_resource.queue_name || ::File.basename(config, ".yml")
 
-  pid_dir    = new_resource.pid_dir || node['sidekiq']['pid_dir']
-  log_dir    = new_resource.log_dir || node['sidekiq']['log_dir']
+  pid_file = ::Pathname.new(rails_root, config[:pidfile]).cleanpath
+  log_file = ::Pathname.new(rails_root, config[:logfile]).cleanpath
 
-  pid_file = ::File.realpath(config[:pidfile], rails_root)
-  log_file = ::File.realpath(config[:logfile], rails_root)
+  pid_dir    = ::File.dirname(pid_file) || new_resource.pid_dir || node['sidekiq']['pid_dir']
+  log_dir    = ::File.dirname(log_file) || new_resource.log_dir || node['sidekiq']['log_dir']
 
 #  pid_file   = "#{rails_root}#{pid_dir}/sidekiq_#{queue_name}.pid"
 #  log_file   = "#{rails_root}#{log_dir}/sidekiq_#{queue_name}.log"
@@ -27,17 +29,17 @@ action :create do
   directory pid_dir do
     owner user
     group group
-    mode 0775
+    mode 0640
   end
 
   directory log_dir do
-    mode 0775
+    mode 0640
   end
 
   file log_file do
     owner user
     group group
-    mode 0755
+    mode 0640
     action :create_if_missing
   end
 
