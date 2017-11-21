@@ -29,11 +29,11 @@ action :create do
   directory pid_dir do
     owner user
     group group
-    mode 0640
+    mode 0750
   end
 
   directory log_dir do
-    mode 0640
+    mode 0750
   end
 
   file log_file do
