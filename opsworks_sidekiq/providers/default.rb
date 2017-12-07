@@ -98,7 +98,7 @@ action :create do
     command "monit -Iv restart sidekiq_#{queue_name}"
     only_if { ::File.exists?(pid_file) }
     retries 1
-    notifies :run, "execute[reload-monit-for-sidekiq]", :before #again attempt to force a reload of monit config...
+    # notifies :run, "execute[reload-monit-for-sidekiq]", :before #again attempt to force a reload of monit config...
   end
 
   new_resource.updated_by_last_action(true)

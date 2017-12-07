@@ -10,7 +10,8 @@ This cookbook is for AWS OpsWorks running linux hosts to deploy sidekiq under mo
 *   Chef 11 (might work on Chef 0.9)
 *   Sidekiq config files must be YAML
 *   Config path is relative to rails root with leading slash
-*   Queues named in any config(s) must have the correct key name i.e. node['sidekiq']['queues']['default'] = /path/to/config with queue named default .yml
+*   All paths in sidekiq config (i.e. log and pid files) must be relative to rails root
+
 
 ## Node Attributes
 
