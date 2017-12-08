@@ -4,4 +4,8 @@ export RAILS_ENV="<%= @rails_env %>"
 export RACK_ENV="<%= @rails_env %>"
 export PATH=/usr/local/bin:/usr/local/sbin:/opt/aws/bin:$PATH
 
+<% @vars.each do |key, value| %>
+<%=key%>=<%=value%>
+<% end %>
+
 su <%= @user %> -s /bin/bash -c 'cd <%= @rails_root %> && /usr/local/bin/bundle exec sidekiq -d -q <%= @queue_name %> -C <%= @config %>'
