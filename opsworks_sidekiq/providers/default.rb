@@ -80,6 +80,7 @@ action :create do
               "config" => config_file,
               "pid_file" => pid_file,
               "log_file" => log_file
+              "vars" => new_resource.vars
   end
 
   template "#{node.default["monit"]["conf_dir"]}/sidekiq_#{queue_name}.monitrc" do
