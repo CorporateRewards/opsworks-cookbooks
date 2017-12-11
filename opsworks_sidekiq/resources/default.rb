@@ -13,3 +13,4 @@ attribute :rails_env, :kind_of => [String, NilClass], :default => nil
 
 attribute :queue_name, :kind_of => [String], :required => true
 attribute :config, :kind_of => [String], :required => true
+attribute :vars, :kind_of => [Hash], :default => {}

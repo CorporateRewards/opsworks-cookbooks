@@ -7,7 +7,7 @@ action :create do
   rails_root = new_resource.working_directory
   rails_env  = new_resource.rails_env || node['sidekiq']['rails_env']
 
-  config_file      = ::File.realpath(new_resource.config, rails_root)
+  config_file      = ::Pathname.new("#{rails_root}/#{new_resource.config}").cleanpath.to_s
   config = YAML.load_file(config_file)
 
   queue_name = config[:queues].first || new_resource.queue_name || ::File.basename(config, ".yml")
@@ -79,7 +79,8 @@ action :create do
               "rails_env" => rails_env,
               "config" => config_file,
               "pid_file" => pid_file,
-              "log_file" => log_file
+              "log_file" => log_file,
+              "vars" => new_resource.vars
   end
 
   template "#{node.default["monit"]["conf_dir"]}/sidekiq_#{queue_name}.monitrc" do
@@ -97,6 +98,8 @@ action :create do
   execute "restart-sidekiq-service" do
     command "monit -Iv restart sidekiq_#{queue_name}"
     only_if { ::File.exists?(pid_file) }
+    retries 1
+    # notifies :run, "execute[reload-monit-for-sidekiq]", :before #again attempt to force a reload of monit config...
   end
 
   new_resource.updated_by_last_action(true)
