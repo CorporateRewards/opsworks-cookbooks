@@ -6,12 +6,11 @@
 #
 
 node[:deploy].each do |application, deploy|
-  vars={}
-  deploy[:environment_variables].each do |key, value|
-    vars[key] = value
-  end
-
   node['sidekiq']['queues'].each do |name, config|
+    vars={}
+    deploy[:environment_variables].each do |key, value|
+      vars[key] = value
+    end
     puts "Got config for Sidekiq Queue - #{name} => #{config}"
     opsworks_sidekiq "#{name}" do
       config config
