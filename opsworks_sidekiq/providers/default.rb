@@ -79,7 +79,7 @@ action :create do
               "rails_env" => rails_env,
               "config" => config_file,
               "pid_file" => pid_file,
-              "log_file" => log_file
+              "log_file" => log_file,
               "vars" => new_resource.vars
   end
 
