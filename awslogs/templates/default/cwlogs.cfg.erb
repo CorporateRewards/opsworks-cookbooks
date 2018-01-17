@@ -86,7 +86,7 @@ state_file = /var/awslogs/state/agent-state
 #datetime_format = %b %d %H:%M:%S
 #<% end -%>
 
-<% streams.each |stream| do %>
+<% streams.each do |stream| -%>
 <% if File.exist?(stream.path) %>
 <% Chef::Log.info("Found #{stream.name}") %>
 [<%= node[:opsworks][:stack][:name] %>_<%= stream.name%>]
