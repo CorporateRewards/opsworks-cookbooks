@@ -22,13 +22,13 @@ node[:deploy].each do |application, deploy|
   if node['nginx'] && node['nginx']['log_format'] && !node['nginx']['log_format'].empty?
     node['nginx']['log_format'].each do |format|
       default[:cwlogs][:streams]['nginx'] = {}
-      default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{node['opsworks']['applications'][0]['slug_name']}.#{format[0]}.access.log"
+      default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{application}.access.#{format[0]}.log"
       default[:cwlogs][:streams]['nginx']['name'] = 'nginx_access.log'
       default[:cwlogs][:streams]['nginx']['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
    end
   else
     default[:cwlogs][:streams]['nginx'] = {}
-    default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{node['opsworks']['applications'][0]['slug_name']}.access.log"
+    default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{application}.access.log"
     default[:cwlogs][:streams]['nginx']['name'] = 'nginx_access.log'
     default[:cwlogs][:streams]['nginx']['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
   end
