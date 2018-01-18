@@ -19,7 +19,7 @@ default[:cwlogs][:streams]['auth']['name'] = 'auth.log'
 default[:cwlogs][:streams]['auth']['datetime_format'] = '%b %d %H:%M:%S'
 
 node[:deploy].each do |application, deploy|
-  if deploy['nginx'] && deploy['nginx']['log_format'] && !deploy['nginx']['log_format'].empty?
+  if node['nginx'] && node['nginx']['log_format'] && !node['nginx']['log_format'].empty?
     node['nginx']['log_format'].each do |format|
       default[:cwlogs][:streams]['nginx'] = {}
       default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{node['opsworks']['applications'][0]['slug_name']}.#{format[0]}.access.log"
