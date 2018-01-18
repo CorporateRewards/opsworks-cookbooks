@@ -18,10 +18,19 @@ default[:cwlogs][:streams]['auth']['path'] = '/var/log/auth.log'
 default[:cwlogs][:streams]['auth']['name'] = 'auth.log'
 default[:cwlogs][:streams]['auth']['datetime_format'] = '%b %d %H:%M:%S'
 
-default[:cwlogs][:streams]['nginx'] = {}
-default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{node['opsworks']['applications'][0]['slug_name']}.access.log"
-default[:cwlogs][:streams]['nginx']['name'] = 'nginx_acces.log'
-default[:cwlogs][:streams]['nginx']['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
+if node.try('nginx').try().try('log_format').empty?
+  default[:cwlogs][:streams]['nginx'] = {}
+  default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{node['opsworks']['applications'][0]['slug_name']}.access.log"
+  default[:cwlogs][:streams]['nginx']['name'] = 'nginx_access.log'
+  default[:cwlogs][:streams]['nginx']['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
+else
+  node['nginx']['log_format'].each do |name, format|
+    default[:cwlogs][:streams]['nginx'] = {}
+    default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{node['opsworks']['applications'][0]['slug_name']}.#{name}.access.log"
+    default[:cwlogs][:streams]['nginx']['name'] = 'nginx_access.log'
+    default[:cwlogs][:streams]['nginx']['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
+ end
+end
 
 default[:cwlogs][:streams]['rails'] = {}
 default[:cwlogs][:streams]['rails']['path'] = "/srv/www/#{node['opsworks']['applications'][0]['slug_name']}/shared/log/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log"
