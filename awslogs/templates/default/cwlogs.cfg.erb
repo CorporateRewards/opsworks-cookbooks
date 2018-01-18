@@ -37,5 +37,6 @@ file = <%= stream[:path] %>
 log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
 log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_<%= stream[:name] %>
 datetime_format = <%= stream[:datetime_format] %>
+
 <% end %>
 <% end %>
