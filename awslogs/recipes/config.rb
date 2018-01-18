@@ -4,5 +4,5 @@ template "/tmp/cwlogs.cfg" do
   owner "root"
   group "root"
   mode 0644
-  variables "streams" => node['cwlogs']['streams'] 
+  variables "streams" => node[:cwlogs][:streams] 
 end
