@@ -28,7 +28,7 @@ state_file = /var/awslogs/state/agent-state
 #
 
 
-<% @streams.each do |stream| -%>
+<% @streams.each do |key, stream| -%>
 <% Chef::Log.info("Trying #{stream[:name]}") %>
 <% if File.exist?(stream[:path]) %>
 <% Chef::Log.info("Found #{stream[:name]}") %>
