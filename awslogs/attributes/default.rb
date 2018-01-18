@@ -28,6 +28,7 @@ node[:deploy].each do |application, deploy|
    end
   else
     default[:cwlogs][:streams]['nginx'] = {}
+    default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{node['opsworks']['applications'][0]['slug_name']}.access.log"
     default[:cwlogs][:streams]['nginx']['name'] = 'nginx_access.log'
     default[:cwlogs][:streams]['nginx']['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
   end
