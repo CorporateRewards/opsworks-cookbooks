@@ -23,7 +23,7 @@ if node.try('nginx').try().try('log_format').empty?
   default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{node['opsworks']['applications'][0]['slug_name']}.access.log"
   default[:cwlogs][:streams]['nginx']['name'] = 'nginx_access.log'
   default[:cwlogs][:streams]['nginx']['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
-else
+elseif node.try('nginx').try().try('log_format')
   node['nginx']['log_format'].each do |name, format|
     default[:cwlogs][:streams]['nginx'] = {}
     default[:cwlogs][:streams]['nginx']['path'] = "/var/log/nginx/#{node['opsworks']['applications'][0]['slug_name']}.#{name}.access.log"
