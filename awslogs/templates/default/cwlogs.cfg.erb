@@ -34,7 +34,7 @@ state_file = /var/awslogs/state/agent-state
 <% Chef::Log.info("Found #{stream[:name]}") %>
 [<%= node[:opsworks][:stack][:name].gsub(/[\(\)]/, '') %>_<%= stream[:name] %>]
 file = <%= stream[:path] %>
-log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ','_') %>
+log_group_name = <%= node[:opsworks][:stack][:name].gsub(/[\(\) ]/,'_') %>
 log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_<%= stream[:name] %>
 datetime_format = <%= stream[:datetime_format] %>
 
