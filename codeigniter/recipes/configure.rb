@@ -1,4 +1,4 @@
-include_recipe "deploy"
+include_recipe "apache2"
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
