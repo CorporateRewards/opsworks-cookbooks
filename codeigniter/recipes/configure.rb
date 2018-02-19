@@ -7,14 +7,14 @@ node[:deploy].each do |application, deploy|
     mode 0660
     group deploy[:user]
     owner deploy[:user]
-    action :create
+    recursive: true
   end
 
   directory "#{deploy[:deploy_to]}/shared/sessions#{application}" do
     mode 0660
     group deploy[:user]
     owner deploy[:user]
-    action :create
+    recursive: true
   end
 
 end
