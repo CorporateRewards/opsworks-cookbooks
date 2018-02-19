@@ -5,14 +5,14 @@ node[:deploy].each do |application, deploy|
 
   directory "#{deploy[:deploy_to]}/shared/cache" do
     mode 0660
-    group deploy[:group]
+    group deploy[:user]
     owner deploy[:user]
     action :create
   end
 
   directory "#{deploy[:deploy_to]}/shared/sessions" do
-    mode 0670
-    group deploy[:group]
+    mode 0660
+    group deploy[:user]
     owner deploy[:user]
     action :create
   end
