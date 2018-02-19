@@ -6,10 +6,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
         'dsn'   => '',
-        'hostname' => '<%= @database[:host]%>',
-        'username' => '<%= @database[:username]%>',
-        'password' => '<%= @database[:password]%>',
-        'database' => '<%= @database[:database]%>',
+        'hostname' => getenv('DB_HOST') || '<%= @database[:host]%>',
+        'username' => getenv('DB_USER') || '<%= @database[:username]%>',
+        'password' => getenv('DB_PASS') || '<%= @database[:password]%>',
+        'database' => getenv('DB_NAME') || '<%= @database[:database]%>',
         'dbdriver' => 'mysqli',
         'dbprefix' => '',
         'pconnect' => FALSE,
