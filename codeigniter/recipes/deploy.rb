@@ -18,6 +18,6 @@ node[:deploy].each do |application, deploy|
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
-    variables(:config => node[:codeigniter][:config])
+    variables(:config => node[:codeigniter][:config], :app => application)
   end
 end

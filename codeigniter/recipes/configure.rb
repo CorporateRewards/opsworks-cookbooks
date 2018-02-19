@@ -4,6 +4,18 @@ include_recipe "apache2"
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
+  directory "#{deploy[:deploy_to]}/shared/log/#{application}" do
+    mode 0755
+    group node[:apache][:user]
+    owner node[:apache][:user]
+  end
+
+  directory "#{deploy[:deploy_to]}/shared/config/#{application}" do
+    mode 0755
+    group node[:apache][:user]
+    owner node[:apache][:user]
+  end
+
   directory "#{deploy[:deploy_to]}/shared/cache" do
     mode 0755
     group node[:apache][:user]
