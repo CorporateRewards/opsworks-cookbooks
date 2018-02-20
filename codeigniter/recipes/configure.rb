@@ -4,8 +4,8 @@ include_recipe "apache2"
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
-  sess_path = "#{node[:codeigniter][:sess_save_path]}/#{application}"
-  cache_path = "#{node[:codeigniter][:cache_path]}/#{application}"
+  sess_path = "#{node[:codeigniter][:config][:sess_save_path]}/#{application}"
+  cache_path = "#{node[:codeigniter][:config][:cache_path]}/#{application}"
 
   directory sess_path do
     mode 0755
