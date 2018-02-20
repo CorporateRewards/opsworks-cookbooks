@@ -1,7 +1,7 @@
 include_recipe "deploy"
 
-Chef::Log.info("Chef deploy_data:")
-Chef::Log.info(deploy_data)
+Chef::Log.info("Chef deploy:")
+Chef::Log.info(deploy)
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
