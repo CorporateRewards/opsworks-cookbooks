@@ -12,13 +12,13 @@ node[:deploy].each do |application, deploy|
     group node[:apache][:user]
     owner node[:apache][:user]
   end
-  Chef::log.info("Created Sessions directory: #{sess_path}")
+  Chef::Log.info("Created Sessions directory: #{sess_path}")
 
   directory cache_path do
     mode 0755
     group node[:apache][:user]
     owner node[:apache][:user]
   end
-  Chef::log.info("Created Cache directory: #{cache_path}")
+  Chef::Log.info("Created Cache directory: #{cache_path}")
 
 end
