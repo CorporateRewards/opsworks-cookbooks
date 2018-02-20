@@ -4,37 +4,13 @@ include_recipe "apache2"
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
-  directory "#{deploy[:deploy_to]}/shared/log/#{application}" do
+  directory "#{node[:codeigniter][:sess_save_path]}/#{application}" do
     mode 0755
     group node[:apache][:user]
     owner node[:apache][:user]
   end
 
-  directory "#{deploy[:deploy_to]}/shared/config/#{application}" do
-    mode 0755
-    group node[:apache][:user]
-    owner node[:apache][:user]
-  end
-
-  directory "#{deploy[:deploy_to]}/shared/cache" do
-    mode 0755
-    group node[:apache][:user]
-    owner node[:apache][:user]
-  end
-
-  directory "#{deploy[:deploy_to]}/shared/sessions" do
-    mode 0755
-    group node[:apache][:user]
-    owner node[:apache][:user]
-  end
-
-  directory "#{deploy[:deploy_to]}/shared/cache/#{application}" do
-    mode 0755
-    group node[:apache][:user]
-    owner node[:apache][:user]
-  end
-
-  directory "#{deploy[:deploy_to]}/shared/sessions/#{application}" do
+  directory "#{node[:codeigniter][:cache_path]}/#{application}" do
     mode 0755
     group node[:apache][:user]
     owner node[:apache][:user]
