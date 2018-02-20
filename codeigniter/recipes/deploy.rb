@@ -3,6 +3,8 @@ include_recipe "deploy"
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
+  Checf::Log("Chef Node Name = #{node[:name]}")
+
   template "#{deploy[:deploy_to]}/shared/config/#{application}/database.php" do
     source "db.erb"
     cookbook 'codeigniter'
