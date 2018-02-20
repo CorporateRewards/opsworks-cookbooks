@@ -11,6 +11,7 @@ node[:deploy].each do |application, deploy|
     mode 0755
     group node[:apache][:user]
     owner node[:apache][:user]
+    recursive true
   end
   Chef::Log.info("Created Sessions directory: #{sess_path}")
 
@@ -18,6 +19,7 @@ node[:deploy].each do |application, deploy|
     mode 0755
     group node[:apache][:user]
     owner node[:apache][:user]
+    recursive true
   end
   Chef::Log.info("Created Cache directory: #{cache_path}")
 
