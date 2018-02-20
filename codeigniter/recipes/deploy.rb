@@ -5,7 +5,7 @@ node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
   Chef::Log.info("Chef node :deploy data:")
-  Chef::Log.info(data)
+  Chef::Log.info(deploy)
 
   template "#{deploy[:deploy_to]}/shared/config/#{application}/database.php" do
     source "db.erb"
