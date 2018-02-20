@@ -3,7 +3,7 @@ include_recipe "deploy"
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
-  Chef::Log("Chef Node Name = #{node[:name]}")
+  Chef::Log.info("Chef Node Name = #{node[:name]}")
 
   template "#{deploy[:deploy_to]}/shared/config/#{application}/database.php" do
     source "db.erb"
