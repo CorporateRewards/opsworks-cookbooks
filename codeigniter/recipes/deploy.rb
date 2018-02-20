@@ -1,10 +1,12 @@
 include_recipe "deploy"
 
 Chef::Log.info("Chef node params:")
-Chef::Log.info(@params)
+Chef::Log.info(params)
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
+
+
 
   template "#{deploy[:deploy_to]}/shared/config/#{application}/database.php" do
     source "db.erb"
