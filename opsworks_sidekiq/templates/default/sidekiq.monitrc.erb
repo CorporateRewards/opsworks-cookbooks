@@ -1,0 +1,5 @@
+check process <%= @name %>
+  with pidfile "<%= @pid_file %>"
+  start program = "/usr/local/bin/start<%= @name %>.sh" with timeout 30 seconds
+  stop program = "/usr/local/bin/stop<%= @name %>.sh" with timeout 30 seconds
+  group <%= @name %>
