@@ -4,7 +4,7 @@ include_recipe "deploy"
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
   if(deploy['deploy_to'] && File.directory?(deploy['deploy_to']))
-    template "#{deploy[:deploy_to]}/shared/config/#{application}/database.php" do
+    template "#{deploy[:deploy_to]}/shared/config/database.php" do
       source "db.erb"
       cookbook 'codeigniter'
       mode "0660"
@@ -13,7 +13,7 @@ node[:deploy].each do |application, deploy|
       variables(:database => deploy[:database])
     end
     Chef::Log.info("Created database template for #{application}")
-    template "#{deploy[:deploy_to]}/shared/config/#{application}/config.php" do
+    template "#{deploy[:deploy_to]}/shared/config/config.php" do
       source "config.erb"
       cookbook 'codeigniter'
       mode "0660"
