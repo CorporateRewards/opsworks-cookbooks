@@ -13,6 +13,6 @@ node[:deploy].each do |application, deploy|
     owner "root"
     group "root"
     mode 0644
-    variables(:streams => node[:cwlogs][:streams], :application => application, :deploy_to: deploy[:deploy_to])
+    variables(:streams => node[:cwlogs][:streams], :application => application, :deploy_to: => deploy[:deploy_to])
   end
 end
