@@ -27,14 +27,15 @@ state_file = /var/awslogs/state/agent-state
 #
 #
 
-
 <% @streams.each do |key, stream| -%>
-<% Chef::Log.info("Trying #{stream[:name]} (#{stream[:path]})") %>
-<% if File.exist?(stream[:path]) %>
+#if a path is not an absolute path the code below assumes is it relative to :deploy_to from the configure recipe
+<% file_path = stream[:path][0] == '/' ? stream[:path] : "#{@deploy_to}/#{stream[:path]}" %>
+<% Chef::Log.info("#{stream[:name]} (#{file_path})") %>
+<% if File.exist?(file_path) %>
 <% Chef::Log.info("Found #{stream[:name]}") %>
 [<%= node[:opsworks][:stack][:name].gsub(/[\(\)]/, '') %>_<%= stream[:name] %>]
-file = <%= stream[:path] %>
-log_group_name = <%= node[:opsworks][:stack][:name].gsub(/[\(\) ]/,'_') %>
+file = <%= file_path %>
+log_group_name = <%= node[:opsworks][:stack][:name].gsub(/[\(\) ]/,'_') %><%= @application != "" ? "_#{@application}" : "" %>
 log_stream_name = <%= node[:opsworks][:instance][:hostname] %>_<%= stream[:name] %>
 datetime_format = <%= stream[:datetime_format] %>
 
