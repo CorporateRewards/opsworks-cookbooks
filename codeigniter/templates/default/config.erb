@@ -17,7 +17,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = '';
+<%
+# grab the first listed domain to be the default domain according to CodeIgniter
+protocol = node[deploy][@application][ssl_support] ? 'http://' : 'https://'
+%>
+$config['base_url'] = '<%= "#{protocol}#{node[deploy][@application][domains][0]}" -%>';
 
 /*
 |--------------------------------------------------------------------------
