@@ -8,13 +8,14 @@ def copy_stream (stream, application="", deploy_to=nil)
   return output
 end
 
-streams = {}
-node[:cwlogs][:streams].each do |key, value|
-  streams[key] = copy_stream value
-end
+streams = []
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
+
+  node[:cwlogs][:streams].each do |key, value|
+    streams.push (copy_stream value,application, deploy[:deploy_to])
+  end
 
   #set application name to a blank string if we are the first and only application
   if node[:deploy].length == 1
@@ -24,7 +25,7 @@ node[:deploy].each do |application, deploy|
   # loop each stream we have and copy to out list of streams
   if deploy[:cwlogs] && deploy[:cwlogs][:streams]
     deploy[:cwlogs][:streams].each do |key, stream|
-      streams[key] = copy_stream stream, application, deploy[:deploy_to]
+      streams.push(copy_stream stream, application, deploy[:deploy_to])
     end
   end
 end
