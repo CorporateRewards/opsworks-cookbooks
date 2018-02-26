@@ -3,6 +3,7 @@ include_recipe "deploy"
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
+  next if !deploy[:application]
   if(deploy['deploy_to'] && File.directory?(deploy['deploy_to']))
     template "#{deploy[:deploy_to]}/shared/config/database.php" do
       source "db.erb"
