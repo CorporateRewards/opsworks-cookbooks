@@ -13,13 +13,13 @@ streams = []
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
-  node[:cwlogs][:streams].each do |key, value|
-    streams.push (copy_stream value,application, deploy[:deploy_to])
-  end
-
   #set application name to a blank string if we are the first and only application
   if node[:deploy].length == 1
     application = ""
+  end
+
+  node[:cwlogs][:streams].each do |key, value|
+    streams.push (copy_stream value,application, deploy[:deploy_to])
   end
 
   # loop each stream we have and copy to out list of streams
