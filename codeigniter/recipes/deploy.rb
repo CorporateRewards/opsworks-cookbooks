@@ -14,13 +14,19 @@ node[:deploy].each do |application, deploy|
       variables(:database => deploy[:database])
     end
     Chef::Log.info("Created database template for #{application}")
+
+    if deploy[:codeigniter] && deploy[:codeigniter][:config]
+      config = deploy[:codeigniter][:config]
+    else
+      config = {}
+    end
     template "#{deploy[:deploy_to]}/shared/config/config.php" do
       source "config.erb"
       cookbook 'codeigniter'
       mode "0660"
       group deploy[:group]
       owner deploy[:user]
-      variables(:config => node[:codeigniter][:config], :app => application)
+      variables(:config => node[:codeigniter][:config], :app => application, :overrides => config)
     end
     Chef::Log.info("Created config template for #{application}")
   end

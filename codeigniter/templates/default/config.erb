@@ -20,8 +20,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <%
 # grab the first listed domain to be the default domain according to CodeIgniter
 protocol = node[:deploy][@app][:ssl_support] ? 'https://' : 'http://'
+
+if @overrides["base_url"]
+  base_url = @overrides["base_url"]
+else
+  base_url = "#{protocol}#{node[:deploy][@app][:domains][0]}"
+end
 %>
-$config['base_url'] = '<%= "#{protocol}#{node[:deploy][@app][:domains][0]}" -%>';
+$config['base_url'] = '<%= base_url -%>';
 
 /*
 |--------------------------------------------------------------------------
