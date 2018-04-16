@@ -1,0 +1,6 @@
+name 'cr-cookbooks'
+description 'Fork of AWS cookbooks for Opsworks'
+maintainer 'Ted Moyses'
+maintainer_email 'ted.moyses@corporaterewards.co.uk'
+source_url 'https://github.com/CorporateRewards/opsworks-cookbooks'
+version '0.1.0'
