@@ -1,4 +1,4 @@
-name 'cr-cookbooks'
+name 'opsworks-cookbooks'
 description 'Fork of AWS cookbooks for Opsworks'
 maintainer 'Ted Moyses'
 maintainer_email 'ted.moyses@corporaterewards.co.uk'
