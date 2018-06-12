@@ -17,7 +17,7 @@
 node[:deploy].each do |application, deploy|
    opsworks_clockwork "#{application}" do
      working_directory "/srv/www/#{application}/current"
-     rails_env node[:deploy][:rails_env]
+     rails_env deploy[:rails_env]
      user "deploy"
      group "www-data"
    end
