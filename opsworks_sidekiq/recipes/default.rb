@@ -16,7 +16,7 @@ node[:deploy].each do |application, deploy|
       config config
       queue_name name
       working_directory "/srv/www/#{application}/current"
-      rails_env node[:rails_env]
+      rails_env node[:deploy][:rails_env]
       user "deploy"
       group "www-data"
       vars vars
