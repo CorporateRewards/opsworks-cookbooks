@@ -1,6 +1,6 @@
 <!--
 @Date:   2018-02-26T10:34:12+00:00
-@Last modified time: 2018-06-13T17:01:56+01:00
+@Last modified time: 2018-06-13T17:11:38+01:00
 -->
 
 
@@ -521,4 +521,10 @@ $config['proxy_ips'] = '';
 
 
 //extra config
-include 'config_extra.php';
+// include 'config_extra.php';
+$config['standard_css'] = array( 'css/cr.css', 'css/external/remodal.css', 'css/external/remodal-default-theme.css');
+$config['standard_js_head'] = array('https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js');
+$config['standard_js_foot'] = array('https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js', 'js/external/remodal.js', 'js/cr.js');
+$config['admin_css'] = array( 'css/admin/cr.css');
+$config['admin_js_head'] = array('https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js');
+$config['admin_js_foot'] = array('https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js', 'js/external/remodal.js');
