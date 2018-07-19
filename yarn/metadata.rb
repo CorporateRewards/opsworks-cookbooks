@@ -1,0 +1,6 @@
+name              'yarn'
+maintainer        'Ted Moyses c/o Corporate Rewards'
+maintainer_email  'ted.moyses@corporaterewards.co.uk'
+description       'Configures apt and apt services and LWRPs for managing apt repositories and preferences'
+version           '0.0.1'
+depends 'apt'
