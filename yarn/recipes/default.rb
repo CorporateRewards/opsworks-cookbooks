@@ -5,3 +5,12 @@ apt_repository 'yarn' do
   components   ['stable', 'main']
   key          'https://dl.yarnpkg.com/debian/pubkey.gpg'
 end
+
+node[:deploy].each do |application, deploy|
+  directory deploy["deploy_to"] + '/shared/node_modules' do
+    mode 0755
+    owner 'deploy'
+    group 'www-data'
+    action :create
+  end
+end
