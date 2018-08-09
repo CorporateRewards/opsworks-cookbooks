@@ -1,6 +1,8 @@
-cron_d "nuance_user_import" do
-  hour "7"
-  minute "5"
-  command "cd /srv/www/nuancev3/current && php index.php tools/trigger_user_update"
-  user "deploy"
+
+
+template '/etc/cron.d/nuance_user_import' do
+  source 'nuance_user_import.erb'
+  owner 'root'
+  group 'root'
+  mode '0754'
 end
