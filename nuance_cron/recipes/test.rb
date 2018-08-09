@@ -1,5 +1,8 @@
-cron_d "cron_test" do
-  minute "2"
-  command "echo 'Testing' > /tmp/test.txt"
-  user "deploy"
+
+
+template '/etc/cron.d/test' do
+  source 'test.erb'
+  owner 'root'
+  group 'root'
+  mode '0754'
 end
