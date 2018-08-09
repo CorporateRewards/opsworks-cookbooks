@@ -4,4 +4,4 @@ MAILTO=""
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 
-5 7 * * * deploy cd /srv/www/nuancev3/current && php index.php tools/trigger_user_update 2>&1
+5 7 * * * deploy cd /srv/www/nuancev3/current && php index.php tools/trigger_user_update >> /var/log/user_import.log 2>&1
