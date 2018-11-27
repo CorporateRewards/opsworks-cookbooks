@@ -32,6 +32,21 @@ node[:deploy].each do |application, deploy|
     default[:cwlogs][:streams]['nginx']['name'] = 'nginx_access.log'
     default[:cwlogs][:streams]['nginx']['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
   end
+  deploy[application]['domains'].each do |domain|
+    if node['nginx'] && node['nginx']['log_format'] && !node['nginx']['log_format'].empty?
+      node['nginx']['log_format'].each do |format|
+        default[:cwlogs][:streams]["nginx-#{domain}"] = {}
+        default[:cwlogs][:streams]["nginx-#{domain}"]['path'] = "/var/log/nginx/#{domain}.access.#{format[0]}.log"
+        default[:cwlogs][:streams]["nginx-#{domain}"]['name'] = 'nginx_access.log'
+        default[:cwlogs][:streams]["nginx-#{domain}"]['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
+     end
+    else
+      default[:cwlogs][:streams]["nginx-#{domain}"] = {}
+      default[:cwlogs][:streams]["nginx-#{domain}"]['path'] = "/var/log/nginx/#{domain}.access.log"
+      default[:cwlogs][:streams]["nginx-#{domain}"]['name'] = 'nginx_access.log'
+      default[:cwlogs][:streams]["nginx-#{domain}"]['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
+    end
+  end
 end
 default[:cwlogs][:streams]['rails'] = {}
 default[:cwlogs][:streams]['rails']['path'] = "/srv/www/#{node['opsworks']['applications'][0]['slug_name']}/shared/log/#{node["deploy"][node["opsworks"]["applications"][0]["slug_name"]]["rails_env"]}.log"
