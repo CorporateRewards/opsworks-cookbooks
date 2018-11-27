@@ -37,13 +37,13 @@ node[:deploy].each do |application, deploy|
       node['nginx']['log_format'].each do |format|
         default[:cwlogs][:streams]["nginx-#{domain}"] = {}
         default[:cwlogs][:streams]["nginx-#{domain}"]['path'] = "/var/log/nginx/#{domain}.access.#{format[0]}.log"
-        default[:cwlogs][:streams]["nginx-#{domain}"]['name'] = 'nginx_access.log'
+        default[:cwlogs][:streams]["nginx-#{domain}"]['name'] = "nginx-#{domain}_access.log"
         default[:cwlogs][:streams]["nginx-#{domain}"]['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
      end
     else
       default[:cwlogs][:streams]["nginx-#{domain}"] = {}
       default[:cwlogs][:streams]["nginx-#{domain}"]['path'] = "/var/log/nginx/#{domain}.access.log"
-      default[:cwlogs][:streams]["nginx-#{domain}"]['name'] = 'nginx_access.log'
+      default[:cwlogs][:streams]["nginx-#{domain}"]['name'] = "nginx-#{domain}_access.log"
       default[:cwlogs][:streams]["nginx-#{domain}"]['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
     end
   end
