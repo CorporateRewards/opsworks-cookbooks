@@ -32,7 +32,7 @@ node[:deploy].each do |application, deploy|
     default[:cwlogs][:streams]['nginx']['name'] = 'nginx_access.log'
     default[:cwlogs][:streams]['nginx']['datetime_format'] = '[%Y/%m/%d %H:%M:%S]'
   end
-  deploy[application]['domains'].each do |domain|
+  deploy['domains'].each do |domain|
     if node['nginx'] && node['nginx']['log_format'] && !node['nginx']['log_format'].empty?
       node['nginx']['log_format'].each do |format|
         default[:cwlogs][:streams]["nginx-#{domain}"] = {}
