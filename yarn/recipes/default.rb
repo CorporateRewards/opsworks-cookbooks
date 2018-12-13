@@ -14,3 +14,7 @@ node[:deploy].each do |application, deploy|
     action :create
   end
 end
+
+package 'Install yarn' do
+  package_name 'yarn'
+end
