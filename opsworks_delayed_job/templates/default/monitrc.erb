@@ -1,0 +1,5 @@
+check process delayed_job 
+  with pidfile "<%= @pid_file %>"
+  start program = "/usr/local/bin/start_delayed_job.sh" with timeout 30 seconds
+  stop program = "/usr/local/bin/stop_delayed_job.sh" with timeout 30 seconds
+  group delayed_job
