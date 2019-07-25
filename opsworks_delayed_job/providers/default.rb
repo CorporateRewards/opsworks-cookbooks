@@ -37,6 +37,9 @@ action :create do
     group group
     mode 0755
     variables "rails_env" => rails_env
+	    "pid_file" => "#{pid_dir}/delayed_job.pid"
+            "rails_root" => rails_root
+	    "user" => user
   end
 
   template "/usr/local/bin/start_delayed_job.sh" do
@@ -45,7 +48,10 @@ action :create do
     owner user
     group group
     mode 0755
-    variables "rails_env" => rails_env
+    variables "rails_env" => rails_env,
+	    "pid_file" => "#{pid_dir}/delayed_job.pid"
+            "rails_root" => rails_root
+	    "user" => user
   end
 
   template "#{node.default["monit"]["conf_dir"]}/delayed_job.monitrc" do
@@ -55,6 +61,7 @@ action :create do
     group 'root'
     mode '0644'
     notifies :run, "execute[reload-monit-for-delayed-job]", :immediately # Run immediately to ensure the following command works
+    variables "pid_file" => "#{pid_dir}/delayed_job.pid"
   end
 
   # Restart sidekiq if it's already running
