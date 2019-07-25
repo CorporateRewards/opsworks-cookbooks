@@ -5,9 +5,6 @@ export RACK_ENV="<%= @rails_env %>"
 export PATH=/usr/local/bin:/usr/local/sbin:/opt/aws/bin:$PATH
 
 # env vars from opsworks here
-# <%= @vars.length %>
-<% @vars.each do |key, value| %>
-export <%= key %>="<%= value %>"
-<% end %>
+<%= @rails_env %>
 
 su <%= @user %> -s /bin/bash -c 'cd <%= @rails_root %> && bundle exec bin/delayed_job -e <%= @rails_env%>'
