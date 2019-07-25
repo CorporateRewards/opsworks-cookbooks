@@ -6,7 +6,7 @@
 #
 
 node[:deploy].each do |application, deploy|
-  opsworks_delayed_job dj do
+  opsworks_delayed_job 'delayed_job' do
     vars={}
     deploy[:environment_variables].each do |key, value|
       vars[key] = value
