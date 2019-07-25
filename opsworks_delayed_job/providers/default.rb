@@ -21,7 +21,7 @@ action :create do
     mode 0750
   end
 
-  file log_file do
+  file "#{log_dir}/delayed_job.log" do
     owner user
     group group
     mode 0640
