@@ -5,23 +5,26 @@ action :create do
   group      = new_resource.group
   rails_root = new_resource.working_directory
   rails_env  = new_resource.rails_env 
-  
+  pid_dir = new_resource.pid_dir
+  log_dir = new_resource.log_dir
+  pid_file = "#{pid_dir}/delayed_job.pid"
+
   execute "reload-monit-for-delayed-job" do
     command "monit -Iv reload"
     action :nothing
   end
 
-  directory new_resource.pid_dir do
+  directory pid_dir do
     owner user
     group group
     mode 0750
   end
 
-  directory new_resource.log_dir do
+  directory log_dir do
     mode 0750
   end
 
-  file "#{new_resource.log_dir}/delayed_job.log" do
+  file "#{log_dir}/delayed_job.log" do
     owner user
     group group
     mode 0640
@@ -37,7 +40,7 @@ action :create do
     group group
     mode 0755
     variables "rails_env" => rails_env,
-	    "pid_file" => "#{pid_dir}/delayed_job.pid",
+	    "pid_file" => pid_file,
             "rails_root" => rails_root,
 	    "user" => user
   end
@@ -49,7 +52,7 @@ action :create do
     group group
     mode 0755
     variables "rails_env" => rails_env,
-	    "pid_file" => "#{pid_dir}/delayed_job.pid",
+	    "pid_file" => pid_file,
             "rails_root" => rails_root,
 	    "user" => user
   end
@@ -61,7 +64,7 @@ action :create do
     group 'root'
     mode '0644'
     notifies :run, "execute[reload-monit-for-delayed-job]", :immediately # Run immediately to ensure the following command works
-    variables "pid_file" => "#{pid_dir}/delayed_job.pid"
+    variables "pid_file" => pid_file
   end
 
   # Restart sidekiq if it's already running
