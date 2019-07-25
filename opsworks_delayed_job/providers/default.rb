@@ -36,9 +36,9 @@ action :create do
     owner user
     group group
     mode 0755
-    variables "rails_env" => rails_env
-	    "pid_file" => "#{pid_dir}/delayed_job.pid"
-            "rails_root" => rails_root
+    variables "rails_env" => rails_env,
+	    "pid_file" => "#{pid_dir}/delayed_job.pid",
+            "rails_root" => rails_root,
 	    "user" => user
   end
 
@@ -49,8 +49,8 @@ action :create do
     group group
     mode 0755
     variables "rails_env" => rails_env,
-	    "pid_file" => "#{pid_dir}/delayed_job.pid"
-            "rails_root" => rails_root
+	    "pid_file" => "#{pid_dir}/delayed_job.pid",
+            "rails_root" => rails_root,
 	    "user" => user
   end
 
