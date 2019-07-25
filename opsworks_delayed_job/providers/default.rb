@@ -7,7 +7,7 @@ action :create do
   rails_env  = new_resource.rails_env 
   pid_dir = new_resource.pid_dir
   log_dir = new_resource.log_dir
-  pid_file = "#{pid_dir}/delayed_job.pid"
+  pid_file = "#{rails_root}/#{pid_dir}/delayed_job.pid"
 
   execute "reload-monit-for-delayed-job" do
     command "monit -Iv reload"
