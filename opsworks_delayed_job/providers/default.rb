@@ -11,17 +11,17 @@ action :create do
     action :nothing
   end
 
-  directory pid_dir do
+  directory new_resource.pid_dir do
     owner user
     group group
     mode 0750
   end
 
-  directory log_dir do
+  directory new_resource.log_dir do
     mode 0750
   end
 
-  file "#{log_dir}/delayed_job.log" do
+  file "#{new_resource.log_dir}/delayed_job.log" do
     owner user
     group group
     mode 0640
