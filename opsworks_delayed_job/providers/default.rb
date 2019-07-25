@@ -28,7 +28,7 @@ action :create do
     action :create_if_missing
   end
 
-  Chef::Log("Starting Delayed Job config")
+  Chef::Log.info("Starting Delayed Job config")
 
   template "/usr/local/bin/stop_delayed_job.sh" do
     source 'stop.sh.erb'
