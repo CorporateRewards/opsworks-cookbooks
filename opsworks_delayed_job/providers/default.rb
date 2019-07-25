@@ -54,7 +54,7 @@ action :create do
     owner 'root'
     group 'root'
     mode '0644'
-    notifies :run, "execute[reload-monit-for-sidekiq]", :immediately # Run immediately to ensure the following command works
+    notifies :run, "execute[reload-monit-for-delayed-job]", :immediately # Run immediately to ensure the following command works
   end
 
   # Restart sidekiq if it's already running
