@@ -54,7 +54,8 @@ action :create do
     variables "rails_env" => rails_env,
 	    "pid_file" => pid_file,
             "rails_root" => rails_root,
-	    "user" => user
+	    "user" => user,
+	    "vars" => new_resource.vars 
   end
 
   template "#{node.default["monit"]["conf_dir"]}/delayed_job.monitrc" do
