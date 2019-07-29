@@ -61,7 +61,8 @@ action :create do
               "name" => name,
               "rails_root" => rails_root,
               "rails_env" => rails_env,
-              "clock" => clock
+              "clock" => clock,
+              "vars" => new_resource.vars
   end
 
   template "#{node.default["monit"]["conf_dir"]}/clockwork_#{name}.monitrc" do
