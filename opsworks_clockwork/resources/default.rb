@@ -11,3 +11,4 @@ attribute :clock_file, :kind_of => [String, NilClass], :default => nil
 attribute :pid_dir, :kind_of => [String, NilClass], :default => nil
 attribute :log_dir, :kind_of => [String, NilClass], :default => nil
 attribute :rails_env, :kind_of => [String, NilClass], :default => nil
+attribute :vars, :kind_of => [Hash], :default => {}
