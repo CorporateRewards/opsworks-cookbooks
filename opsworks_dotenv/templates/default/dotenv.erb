@@ -2,5 +2,5 @@
 <% require "shellwords" %>
 
 <% @vars.each do |key, value| %>
-export <%key%>=<%=Shellwords.shellescape(value)%>
+export <%=key%>=<%=Shellwords.shellescape(value)%>
 <% end %>
